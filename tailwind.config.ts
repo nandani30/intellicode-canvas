@@ -52,16 +52,23 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
+				// CodeAura editor colors
+				editor: {
+					bg: 'hsl(var(--editor-bg))',
+					sidebar: 'hsl(var(--editor-sidebar))',
+					panel: 'hsl(var(--editor-panel))',
+					border: 'hsl(var(--editor-border))',
+				},
+				code: {
+					bg: 'hsl(var(--code-bg))',
+				},
+				ai: {
+					accent: 'hsl(var(--ai-accent))',
+					muted: 'hsl(var(--ai-accent-muted))',
+				},
+				success: 'hsl(var(--success))',
+				warning: 'hsl(var(--warning))',
+				info: 'hsl(var(--info))',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
