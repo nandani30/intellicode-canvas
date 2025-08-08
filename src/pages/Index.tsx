@@ -32,13 +32,13 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen bg-editor-bg text-foreground flex flex-col dark">
+    <div className="h-screen bg-editor-bg text-foreground flex flex-col overflow-hidden">
       <Header 
         onToggleWhiteboard={() => setWhiteboardVisible(!whiteboardVisible)}
         whiteboardVisible={whiteboardVisible}
       />
       
-      <div className="flex-1 flex">
+      <div className="flex-1 flex overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="flex-1">
           {/* Sidebar */}
           <ResizablePanel defaultSize={15} minSize={12} maxSize={25}>
@@ -51,7 +51,7 @@ const Index = () => {
           <ResizablePanel defaultSize={55} minSize={30}>
             <ResizablePanelGroup direction="vertical">
               {/* Code Editor */}
-              <ResizablePanel defaultSize={70} minSize={40}>
+              <ResizablePanel defaultSize={outputTab === "hidden" ? 100 : 70} minSize={40}>
                 <div className="relative h-full">
                   <CodeEditor
                     onExplainCode={handleExplainCode}
@@ -63,12 +63,19 @@ const Index = () => {
                 </div>
               </ResizablePanel>
               
-              <ResizableHandle />
-              
-              {/* Output Panel */}
-              <ResizablePanel defaultSize={30} minSize={20}>
-                <OutputPanel activeTab={outputTab} onTabChange={setOutputTab} />
-              </ResizablePanel>
+              {outputTab !== "hidden" && (
+                <>
+                  <ResizableHandle />
+                  {/* Output Panel */}
+                  <ResizablePanel defaultSize={30} minSize={15} maxSize={60}>
+                    <OutputPanel 
+                      activeTab={outputTab} 
+                      onTabChange={setOutputTab}
+                      onClose={() => setOutputTab("hidden")}
+                    />
+                  </ResizablePanel>
+                </>
+              )}
             </ResizablePanelGroup>
           </ResizablePanel>
           

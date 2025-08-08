@@ -17,9 +17,10 @@ import { cn } from "@/lib/utils";
 interface OutputPanelProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onClose?: () => void;
 }
 
-export const OutputPanel = ({ activeTab, onTabChange }: OutputPanelProps) => {
+export const OutputPanel = ({ activeTab, onTabChange, onClose }: OutputPanelProps) => {
   const [isRunning, setIsRunning] = useState(false);
 
   const tabs = [
@@ -208,29 +209,41 @@ export const OutputPanel = ({ activeTab, onTabChange }: OutputPanelProps) => {
   };
 
   return (
-    <div className="h-64 bg-editor-bg border-t border-editor-border flex flex-col">
+    <div className="h-full bg-editor-panel border-t border-editor-border flex flex-col">
       {/* Tabs */}
-      <div className="flex border-b border-editor-border">
-        {tabs.map(tab => (
+      <div className="flex items-center justify-between border-b border-editor-border">
+        <div className="flex">
+          {tabs.map(tab => (
+            <Button
+              key={tab.id}
+              variant="ghost"
+              size="sm"
+              onClick={() => onTabChange(tab.id)}
+              className={cn(
+                "h-8 rounded-none border-r border-editor-border text-xs flex items-center gap-1",
+                activeTab === tab.id && "bg-editor-bg text-ai-accent"
+              )}
+            >
+              <tab.icon className="w-3 h-3" />
+              {tab.label}
+              {tab.count && (
+                <Badge variant="secondary" className="h-4 text-xs ml-1">
+                  {tab.count}
+                </Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+        {onClose && (
           <Button
-            key={tab.id}
             variant="ghost"
             size="sm"
-            onClick={() => onTabChange(tab.id)}
-            className={cn(
-              "h-8 rounded-none border-r border-editor-border text-xs flex items-center gap-1",
-              activeTab === tab.id && "bg-editor-panel text-ai-accent"
-            )}
+            onClick={onClose}
+            className="h-6 w-6 p-0 mr-2 hover:bg-destructive/20 hover:text-destructive"
           >
-            <tab.icon className="w-3 h-3" />
-            {tab.label}
-            {tab.count && (
-              <Badge variant="secondary" className="h-4 text-xs ml-1">
-                {tab.count}
-              </Badge>
-            )}
+            ×
           </Button>
-        ))}
+        )}
       </div>
 
       {/* Tab Content */}
