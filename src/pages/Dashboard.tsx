@@ -123,11 +123,11 @@ const Dashboard = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Welcome back, {userData.name.split(' ')[0]}! 👋</h1>
+              <h1 className="text-3xl font-bold mb-2">Welcome back, {userData.name.split(' ')[0]}!</h1>
               <p className="text-muted-foreground">Here's what's happening with your coding journey</p>
             </div>
             <div className="mt-4 md:mt-0 flex space-x-3">
-              <Link to="/editor">
+              <Link to="/">
                 <Button>
                   <Plus className="w-4 h-4 mr-2" />
                   New Project

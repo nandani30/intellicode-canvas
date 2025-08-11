@@ -44,130 +44,199 @@ def main() -> None:
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <section className="pt-24 pb-12 px-6">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             {/* Left Side - Hero Text */}
             <div className="space-y-8">
-              <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-                The smarter, collaborative way to{" "}
-                <span className="text-primary">learn and write code</span>
-              </h1>
+              <div className="space-y-4">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                  <Sparkles className="w-4 h-4 mr-2 text-primary" />
+                  <span className="text-sm text-primary font-medium">AI-Powered Code Editor</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  Code smarter with{" "}
+                  <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                    AI assistance
+                  </span>
+                </h1>
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                  Experience the future of development with real-time collaboration, intelligent code explanations, and AI-powered debugging.
+                </p>
+              </div>
               
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
-                Collaborate in real-time, debug with AI assistance, and create better code.
-              </p>
-              
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/signup">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 px-8">
-                    Sign Up
+                  <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
+                    Start Coding Free
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="border-border px-8">
-                  Try Demo
-                </Button>
+                <Link to="/dashboard">
+                  <Button variant="outline" size="lg" className="border-border hover:bg-muted/50 px-8">
+                    View Demo
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="flex items-center space-x-6 pt-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-muted-foreground">Online now: 1,247 developers</span>
+                </div>
               </div>
             </div>
 
-            {/* Right Side - Code Editor Demo */}
+            {/* Right Side - Enhanced Code Editor Demo */}
             <div className="relative">
-              <Card className="bg-card border-border shadow-2xl overflow-hidden">
+              {/* Background glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-emerald-500/20 rounded-3xl blur-3xl"></div>
+              
+              <Card className="relative bg-card/95 backdrop-blur border-border/50 shadow-2xl overflow-hidden">
                 <CardContent className="p-0">
                   {/* Terminal Header */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-editor-sidebar border-b border-border">
+                  <div className="flex items-center justify-between px-4 py-3 bg-editor-sidebar/80 backdrop-blur border-b border-border/50">
                     <div className="flex space-x-2">
                       <div className="w-3 h-3 rounded-full bg-red-500"></div>
                       <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <button 
-                        onClick={() => setActiveTab("files")}
-                        className={`text-sm px-3 py-1 rounded ${
-                          activeTab === "files" ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        Explorer
-                      </button>
-                      <span className="text-sm text-muted-foreground">script.js</span>
+                      <div className="flex space-x-1">
+                        <button 
+                          onClick={() => setActiveTab("files")}
+                          className={`text-xs px-2 py-1 rounded ${
+                            activeTab === "files" ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          Explorer
+                        </button>
+                        <button className="text-xs px-2 py-1 rounded text-muted-foreground hover:text-foreground">
+                          Search
+                        </button>
+                      </div>
+                      <span className="text-xs text-muted-foreground">factorial.js</span>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-3 h-96">
+                  <div className="grid grid-cols-12 h-[420px]">
                     {/* Left - File Explorer */}
-                    <div className="bg-editor-sidebar border-r border-border p-4">
-                      <div className="space-y-2">
-                        <div className="text-sm text-muted-foreground font-medium mb-3">Explorer</div>
+                    <div className="col-span-3 bg-editor-sidebar/60 backdrop-blur border-r border-border/30 p-3">
+                      <div className="space-y-3">
+                        <div className="text-xs text-muted-foreground font-medium">EXPLORER</div>
                         <div className="space-y-1">
-                          <div className="text-sm text-foreground flex items-center space-x-2">
+                          <div className="text-xs flex items-center space-x-2 text-foreground bg-primary/10 px-2 py-1 rounded">
                             <ChevronRight className="w-3 h-3" />
-                            <span>script.js</span>
+                            <span>factorial.js</span>
                           </div>
-                          <div className="text-sm text-muted-foreground pl-5">index.html</div>
-                          <div className="text-sm text-muted-foreground pl-5">styles.css</div>
-                          <div className="text-sm text-muted-foreground pl-5">README.md</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">utils.js</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">index.html</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">style.css</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">package.json</div>
                         </div>
                       </div>
                     </div>
                     
                     {/* Center - Code Editor */}
-                    <div className="bg-editor-bg p-4 font-mono text-sm">
+                    <div className="col-span-6 bg-editor-bg/90 backdrop-blur p-4 font-mono text-sm">
                       <div className="space-y-1">
-                        <div className="flex">
-                          <span className="text-muted-foreground w-8">1</span>
-                          <span className="text-blue-400">const</span>
-                          <span className="text-foreground"> factorial = (</span>
-                          <span className="text-orange-400">x</span>
-                          <span className="text-foreground">) =&gt; {'{}'}</span>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">1</span>
+                          <span className="text-purple-400">function</span>
+                          <span className="text-blue-400 ml-2">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground">) {"{"}</span>
                         </div>
-                        <div className="flex">
-                          <span className="text-muted-foreground w-8">2</span>
-                          <span className="text-foreground">    </span>
-                          <span className="text-blue-400">return</span>
-                          <span className="text-foreground"> a(xt) = x</span>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">2</span>
+                          <span className="text-muted-foreground ml-4">//</span>
+                          <span className="text-green-400 ml-2">Base case</span>
                         </div>
-                        <div className="flex">
-                          <span className="text-muted-foreground w-8">3</span>
-                          <span className="text-foreground">{'}'}</span>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">3</span>
+                          <span className="text-purple-400 ml-4">if</span>
+                          <span className="text-foreground ml-2">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground ml-2">&lt;= 1) </span>
+                          <span className="text-purple-400">return</span>
+                          <span className="text-yellow-400 ml-2">1</span>
+                          <span className="text-foreground">;</span>
                         </div>
-                        <div className="flex">
-                          <span className="text-muted-foreground w-8">4</span>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">4</span>
                         </div>
-                        <div className="flex">
-                          <span className="text-muted-foreground w-8">5</span>
+                        <div className="flex items-center bg-primary/5 border-l-2 border-primary/50">
+                          <span className="text-muted-foreground w-8 text-xs">5</span>
+                          <span className="text-muted-foreground ml-4">//</span>
+                          <span className="text-green-400 ml-2">Recursive case</span>
+                        </div>
+                        <div className="flex items-center bg-primary/5 border-l-2 border-primary/50">
+                          <span className="text-muted-foreground w-8 text-xs">6</span>
+                          <span className="text-purple-400 ml-4">return</span>
+                          <span className="text-orange-400 ml-2">n</span>
+                          <span className="text-foreground ml-2">*</span>
+                          <span className="text-blue-400 ml-2">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground ml-2">- 1);</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">7</span>
+                          <span className="text-foreground">{"}"}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">8</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">9</span>
+                          <span className="text-muted-foreground">//</span>
+                          <span className="text-green-400 ml-2">Test the function</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">10</span>
+                          <span className="text-blue-400">console</span>
+                          <span className="text-foreground">.</span>
+                          <span className="text-blue-400">log</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-blue-400">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-yellow-400">5</span>
+                          <span className="text-foreground">));</span>
                         </div>
                       </div>
                     </div>
                     
                     {/* Right - AI Assistant */}
-                    <div className="bg-editor-panel border-l border-border p-4">
+                    <div className="col-span-3 bg-editor-panel/80 backdrop-blur border-l border-border/30 p-3">
                       <div className="space-y-4">
                         <div className="flex items-center space-x-2">
-                          <Sparkles className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-medium">AI Assistant</span>
+                          <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                          <span className="text-xs font-medium">AI Assistant</span>
                         </div>
                         
-                        <div className="space-y-3">
-                          <button className="w-full text-left p-2 bg-primary/10 border border-primary/20 rounded text-sm hover:bg-primary/20 transition-colors">
-                            Explain Code
+                        <div className="space-y-2">
+                          <button className="w-full text-left p-2 bg-primary/10 border border-primary/30 rounded text-xs hover:bg-primary/20 transition-all duration-200 hover:scale-105">
+                            ✨ Explain Code
                           </button>
-                          <button className="w-full text-left p-2 bg-secondary/50 border border-border rounded text-sm hover:bg-secondary/70 transition-colors">
-                            Report
+                          <button className="w-full text-left p-2 bg-emerald-500/10 border border-emerald-500/30 rounded text-xs hover:bg-emerald-500/20 transition-all duration-200">
+                            🐛 Find Issues
+                          </button>
+                          <button className="w-full text-left p-2 bg-blue-500/10 border border-blue-500/30 rounded text-xs hover:bg-blue-500/20 transition-all duration-200">
+                            🚀 Optimize
                           </button>
                         </div>
                         
-                        <div className="mt-6">
-                          <div className="text-sm font-medium mb-2">Factorial</div>
+                        <div className="mt-4 p-3 bg-muted/20 rounded-lg border border-border/30">
+                          <div className="text-xs font-medium mb-2 text-primary">💡 Explanation</div>
                           <div className="text-xs text-muted-foreground leading-relaxed">
-                            A function of racturaut n defines a factorial function because returns the constint in a recursive function in a reuse.
+                            This recursive factorial function calculates n! by multiplying n with factorial(n-1).
                           </div>
                         </div>
                         
-                        <div className="mt-6">
-                          <div className="text-sm font-medium mb-2">Explion</div>
-                          <div className="text-xs text-muted-foreground">
-                            An recoudent explanation
+                        <div className="p-3 bg-green-500/5 border border-green-500/20 rounded-lg">
+                          <div className="text-xs font-medium mb-2 text-green-400">✅ Output</div>
+                          <div className="text-xs font-mono text-muted-foreground">
+                            → 120
                           </div>
                         </div>
                       </div>
@@ -180,38 +249,80 @@ def main() -> None:
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-editor-sidebar/20">
-        <div className="container mx-auto">
+      {/* Features Section - More Creative */}
+      <section id="features" className="py-20 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Everything you need to{" "}
+              <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                code better
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Powerful features designed to enhance your development workflow
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto">
-                <Users className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold">Real-Time Collaboration</h3>
-              <p className="text-muted-foreground">
-                Code together seamlessly with others
-              </p>
-            </div>
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Users className="w-8 h-8 text-blue-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Real-Time Collaboration</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Code together seamlessly with live cursor tracking, instant sync, and built-in voice chat
+                </p>
+              </CardContent>
+            </Card>
             
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto">
-                <Sparkles className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold">AI Assistance</h3>
-              <p className="text-muted-foreground">
-                Get intelligent help with code explanations and suggestions
-              </p>
-            </div>
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">AI-Powered Assistance</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Get intelligent code explanations, smart suggestions, and automated debugging help
+                </p>
+              </CardContent>
+            </Card>
             
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto">
-                <MessageSquare className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold">Whiteboard</h3>
-              <p className="text-muted-foreground">
-                Brainstorm and design with interactive drawing surface
-              </p>
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MessageSquare className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Interactive Whiteboard</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Brainstorm ideas, design architectures, and visualize concepts with collaborative drawing
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 px-6 bg-muted/20">
+        <div className="container mx-auto max-w-4xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">10K+</div>
+              <div className="text-sm text-muted-foreground">Active Developers</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">1M+</div>
+              <div className="text-sm text-muted-foreground">Lines of Code</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">99.9%</div>
+              <div className="text-sm text-muted-foreground">Uptime</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">24/7</div>
+              <div className="text-sm text-muted-foreground">AI Support</div>
             </div>
           </div>
         </div>
@@ -219,19 +330,26 @@ def main() -> None:
 
       {/* CTA Section */}
       <section className="py-20 px-6">
-        <div className="container mx-auto text-center">
-          <div className="max-w-2xl mx-auto space-y-8">
-            <h2 className="text-4xl font-bold">
-              Ready to start coding smarter?
+        <div className="container mx-auto max-w-4xl text-center">
+          <div className="bg-gradient-to-r from-primary/10 via-purple-600/10 to-emerald-500/10 rounded-3xl p-12 border border-border/50">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to transform your coding experience?
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Join thousands of developers building better software together
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join thousands of developers who are already building better software with CodeAura
             </p>
-            <Link to="/signup">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 px-8">
-                Get Started
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/signup">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
+                  Start Free Trial
+                </Button>
+              </Link>
+              <Link to="/dashboard">
+                <Button variant="outline" size="lg" className="border-border hover:bg-muted/50 px-8">
+                  View Live Demo
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

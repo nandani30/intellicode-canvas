@@ -40,23 +40,16 @@ const Login = () => {
 
       {/* Left Panel - Interactive Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-editor-bg via-editor-sidebar to-editor-panel"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/20 to-muted/40"></div>
         <div className="relative z-10 flex flex-col justify-center items-center p-12">
           <div className="max-w-md space-y-8">
             {/* Logo */}
             <div className="flex items-center justify-center space-x-3 mb-8">
-              <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
-                  <Zap className="w-3 h-3 text-black" />
-                </div>
+              <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
-                  CodeAura
-                </h1>
+                <h1 className="text-2xl font-bold text-foreground">CodeAura</h1>
                 <p className="text-sm text-muted-foreground">AI-Powered Development</p>
               </div>
             </div>
