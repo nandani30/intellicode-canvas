@@ -21,7 +21,8 @@ import {
   ChevronRight,
   Activity,
   Target,
-  Award
+  Award,
+  Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -85,10 +86,10 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                <Code2 className="w-5 h-5 text-primary-foreground" />
+              <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold">CodeAura</span>
+              <span className="text-xl font-semibold">CodeAura</span>
             </Link>
             <Badge variant="secondary">{userData.plan}</Badge>
           </div>
