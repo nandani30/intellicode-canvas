@@ -17,347 +17,321 @@ import {
   TrendingUp,
   Calendar,
   Settings,
-  LogOut,
   ChevronRight,
   Activity,
   Target,
   Award,
-  Sparkles
+  Sparkles,
+  Home,
+  RotateCcw,
+  Shuffle,
+  Play,
+  CheckCircle,
+  Menu,
+  X
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Mock data - replace with real data from backend
+  // Mock data
   const userData = {
     name: "Alex Developer",
     email: "alex@example.com",
     avatar: "/api/placeholder/40/40",
-    plan: "Pro",
-    joinDate: "March 2024"
+    streak: 12,
+    status: "online"
   };
 
   const stats = {
-    codeExplanations: 142,
-    bugsFixed: 38,
-    studyNotes: 67,
-    collaborationHours: 24
+    codingStreak: 12,
+    hoursThisWeek: 24,
+    challengesCompleted: 38,
+    lastSession: "React Hooks Challenge"
   };
 
-  const recentProjects = [
-    {
-      id: 1,
-      name: "React Todo App",
-      language: "JavaScript",
-      lastModified: "2 hours ago",
-      collaborators: 2,
-      status: "active"
-    },
-    {
-      id: 2,
-      name: "Python Data Analysis",
-      language: "Python",
-      lastModified: "1 day ago",
-      collaborators: 1,
-      status: "completed"
-    },
-    {
-      id: 3,
-      name: "Express API Server",
-      language: "Node.js",
-      lastModified: "3 days ago",
-      collaborators: 3,
-      status: "active"
-    }
+  const flashcards = [
+    { id: 1, title: "Array Methods", snippet: "arr.map()", tag: "JavaScript", difficulty: "Easy" },
+    { id: 2, title: "Async/Await", snippet: "async function", tag: "JavaScript", difficulty: "Medium" },
+    { id: 3, title: "Binary Search", snippet: "O(log n)", tag: "Algorithms", difficulty: "Medium" },
+    { id: 4, title: "CSS Flexbox", snippet: "display: flex", tag: "CSS", difficulty: "Easy" }
   ];
 
-  const achievements = [
-    { name: "First Bug Fix", icon: Bug, unlocked: true },
-    { name: "Code Explainer", icon: Brain, unlocked: true },
-    { name: "Collaboration Master", icon: Users, unlocked: false },
-    { name: "Study Champion", icon: FileText, unlocked: true }
+  const revisionExercises = [
+    { title: "String Reversal", difficulty: "Easy", completed: true },
+    { title: "Two Sum Problem", difficulty: "Medium", completed: false },
+    { title: "Valid Parentheses", difficulty: "Easy", completed: true },
+    { title: "Merge Sort", difficulty: "Hard", completed: false },
+    { title: "Binary Tree Traversal", difficulty: "Medium", completed: false },
+    { title: "Fibonacci Sequence", difficulty: "Easy", completed: true }
+  ];
+
+  const timeline = [
+    { action: "Fixed bug in JS sorting function", time: "2 hours ago", icon: Bug },
+    { action: "Reviewed 10 flashcards", time: "4 hours ago", icon: Brain },
+    { action: "Completed async/await challenge", time: "1 day ago", icon: Target },
+    { action: "Added 5 new study notes", time: "2 days ago", icon: FileText }
+  ];
+
+  const sidebarItems = [
+    { name: "Dashboard", icon: Home, active: true },
+    { name: "Code Editor", icon: Code2, active: false },
+    { name: "Flashcards", icon: Brain, active: false },
+    { name: "Challenges", icon: Target, active: false },
+    { name: "Revision", icon: RotateCcw, active: false },
+    { name: "Settings", icon: Settings, active: false }
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/40 bg-background/95 backdrop-blur">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-semibold">CodeAura</span>
-            </Link>
-            <Badge variant="secondary">{userData.plan}</Badge>
-          </div>
-          
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/editor" className="text-muted-foreground hover:text-foreground transition-colors">
-              Editor
-            </Link>
-            <Link to="/projects" className="text-muted-foreground hover:text-foreground transition-colors">
-              Projects
-            </Link>
-            <Link to="/learn" className="text-muted-foreground hover:text-foreground transition-colors">
-              Learn
-            </Link>
-          </nav>
-          
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="sm">
-              <Settings className="w-4 h-4" />
-            </Button>
-            <Avatar className="w-8 h-8">
-              <AvatarImage src={userData.avatar} />
-              <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
-
-      <div className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Welcome back, {userData.name.split(' ')[0]}!</h1>
-              <p className="text-muted-foreground">Here's what's happening with your coding journey</p>
-            </div>
-            <div className="mt-4 md:mt-0 flex space-x-3">
-              <Link to="/">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Project
-                </Button>
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-200 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:w-16`}>
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="p-4 border-b border-border">
+            <div className="flex items-center justify-between">
+              <Link to="/" className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <span className="lg:hidden text-lg font-semibold">CodeAura</span>
               </Link>
-              <Button variant="outline">
-                <Users className="w-4 h-4 mr-2" />
-                Collaborate
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setSidebarOpen(false)}
+                className="lg:hidden"
+              >
+                <X className="w-4 h-4" />
               </Button>
             </div>
           </div>
-        </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Code Explanations</p>
-                  <p className="text-2xl font-bold">{stats.codeExplanations}</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                  <Brain className="w-6 h-6 text-blue-500" />
-                </div>
-              </div>
-              <div className="flex items-center mt-4 text-sm">
-                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                <span className="text-green-500">+12%</span>
-                <span className="text-muted-foreground ml-1">this week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Bugs Fixed</p>
-                  <p className="text-2xl font-bold">{stats.bugsFixed}</p>
-                </div>
-                <div className="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center">
-                  <Bug className="w-6 h-6 text-red-500" />
-                </div>
-              </div>
-              <div className="flex items-center mt-4 text-sm">
-                <Target className="w-4 h-4 text-green-500 mr-1" />
-                <span className="text-green-500">+8</span>
-                <span className="text-muted-foreground ml-1">this week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Study Notes</p>
-                  <p className="text-2xl font-bold">{stats.studyNotes}</p>
-                </div>
-                <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-green-500" />
-                </div>
-              </div>
-              <div className="flex items-center mt-4 text-sm">
-                <Activity className="w-4 h-4 text-blue-500 mr-1" />
-                <span className="text-blue-500">+15</span>
-                <span className="text-muted-foreground ml-1">this week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Collaboration</p>
-                  <p className="text-2xl font-bold">{stats.collaborationHours}h</p>
-                </div>
-                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                  <Users className="w-6 h-6 text-purple-500" />
-                </div>
-              </div>
-              <div className="flex items-center mt-4 text-sm">
-                <Clock className="w-4 h-4 text-purple-500 mr-1" />
-                <span className="text-purple-500">+5h</span>
-                <span className="text-muted-foreground ml-1">this week</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Recent Projects */}
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Recent Projects</CardTitle>
-                    <CardDescription>Your latest coding projects and collaborations</CardDescription>
-                  </div>
-                  <Button variant="ghost" size="sm">
-                    View All
-                    <ChevronRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentProjects.map((project) => (
-                    <div key={project.id} className="flex items-center justify-between p-4 border border-border/40 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <Code2 className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium">{project.name}</h3>
-                          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                            <span>{project.language}</span>
-                            <span>•</span>
-                            <span>{project.lastModified}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-1">
-                          <Users className="w-4 h-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">{project.collaborators}</span>
-                        </div>
-                        <Badge variant={project.status === "active" ? "default" : "secondary"}>
-                          {project.status}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Achievements & Progress */}
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Link to="/editor">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Code2 className="w-4 h-4 mr-2" />
-                    Open Editor
-                  </Button>
-                </Link>
-                <Button variant="outline" className="w-full justify-start">
-                  <Brain className="w-4 h-4 mr-2" />
-                  Explain Code
+          {/* Navigation */}
+          <nav className="flex-1 p-4">
+            <div className="space-y-2">
+              {sidebarItems.map((item, index) => (
+                <Button
+                  key={index}
+                  variant={item.active ? "secondary" : "ghost"}
+                  className="w-full justify-start lg:justify-center lg:px-2"
+                  size="sm"
+                >
+                  <item.icon className="w-4 h-4 lg:w-5 lg:h-5" />
+                  <span className="ml-2 lg:hidden">{item.name}</span>
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Bug className="w-4 h-4 mr-2" />
-                  Debug Challenge
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Users className="w-4 h-4 mr-2" />
-                  Start Collaboration
-                </Button>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
+          </nav>
 
-            {/* Achievements */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Achievements</CardTitle>
-                <CardDescription>Your coding milestones</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {achievements.map((achievement, index) => (
-                    <div key={index} className={`flex items-center space-x-3 p-3 rounded-lg ${
-                      achievement.unlocked ? 'bg-muted/50' : 'bg-muted/20 opacity-60'
-                    }`}>
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                        achievement.unlocked ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                      }`}>
-                        <achievement.icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-sm font-medium">{achievement.name}</span>
-                      {achievement.unlocked && (
-                        <Award className="w-4 h-4 text-yellow-500 ml-auto" />
-                      )}
-                    </div>
-                  ))}
+          {/* User Status */}
+          <div className="p-4 border-t border-border">
+            <div className="flex items-center space-x-3 lg:justify-center">
+              <Avatar className="w-8 h-8">
+                <AvatarImage src={userData.avatar} />
+                <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+              </Avatar>
+              <div className="lg:hidden">
+                <div className="text-sm font-medium">{userData.name}</div>
+                <div className="flex items-center text-xs text-muted-foreground">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                  {userData.status}
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Learning Progress */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Learning Progress</CardTitle>
-                <CardDescription>Your weekly goals</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Code Explanations</span>
-                    <span>8/10</span>
-                  </div>
-                  <Progress value={80} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Bug Fixes</span>
-                    <span>5/5</span>
-                  </div>
-                  <Progress value={100} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Study Notes</span>
-                    <span>3/7</span>
-                  </div>
-                  <Progress value={43} className="h-2" />
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Main Content */}
+      <div className="flex-1 lg:ml-0">
+        {/* Top Header */}
+        <header className="bg-card border-b border-border p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+              <div>
+                <h1 className="text-xl font-semibold">Welcome back, {userData.name.split(' ')[0]}!</h1>
+                <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full">
+                <Zap className="w-4 h-4" />
+                <span className="text-sm font-medium">{userData.streak} day streak</span>
+              </div>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Quick Action
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        {/* Dashboard Content */}
+        <main className="p-6 space-y-8 overflow-auto">
+          {/* Productivity Snapshot */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Productivity Snapshot</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-2xl font-bold">{stats.codingStreak}</p>
+                      <p className="text-sm text-muted-foreground">Day Streak</p>
+                    </div>
+                    <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-orange-500" />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {stats.hoursThisWeek}h coded this week
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-2xl font-bold">{stats.challengesCompleted}%</p>
+                      <p className="text-sm text-muted-foreground">Weekly Progress</p>
+                    </div>
+                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                      <Target className="w-5 h-5 text-green-500" />
+                    </div>
+                  </div>
+                  <Progress value={stats.challengesCompleted} className="h-2" />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Last Session</p>
+                      <p className="text-lg font-semibold">{stats.lastSession}</p>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      Resume
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Flashcards Carousel */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Flashcards</h2>
+              <div className="flex space-x-2">
+                <Button variant="outline" size="sm">
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add New
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Shuffle className="w-4 h-4 mr-1" />
+                  Shuffle
+                </Button>
+                <Button variant="outline" size="sm">
+                  Review 5
+                </Button>
+              </div>
+            </div>
+            <div className="flex space-x-4 overflow-x-auto pb-2">
+              {flashcards.map((card) => (
+                <Card key={card.id} className="min-w-[280px] cursor-pointer hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <Badge variant="secondary">{card.tag}</Badge>
+                      <Badge variant={card.difficulty === 'Easy' ? 'default' : card.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
+                        {card.difficulty}
+                      </Badge>
+                    </div>
+                    <h3 className="font-medium mb-2">{card.title}</h3>
+                    <code className="text-sm bg-muted px-2 py-1 rounded">{card.snippet}</code>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Revision Exercises Grid */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Revision Exercises</h2>
+              <Button variant="outline" size="sm">
+                View All
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {revisionExercises.map((exercise, index) => (
+                <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-medium">{exercise.title}</h3>
+                      {exercise.completed ? (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Play className="w-5 h-5 text-muted-foreground" />
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Badge variant={exercise.difficulty === 'Easy' ? 'default' : exercise.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
+                        {exercise.difficulty}
+                      </Badge>
+                      <Button variant="outline" size="sm">
+                        {exercise.completed ? 'Review' : 'Start'}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Learning Timeline */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Learning Timeline</h2>
+            <Card>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {timeline.map((item, index) => (
+                    <div key={index} className="flex items-center space-x-4">
+                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <item.icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">{item.action}</p>
+                        <p className="text-xs text-muted-foreground">{item.time}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        </main>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 };
