@@ -23,6 +23,7 @@ import {
   Twitter,
   Linkedin,
   Globe,
+  Sparkles,
   Calendar,
   MapPin,
   Star,

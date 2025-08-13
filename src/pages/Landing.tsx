@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Users, Zap, ChevronRight, MessageSquare } from "lucide-react";
+import { Sparkles, Users, Zap, ChevronRight, MessageSquare, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
@@ -341,19 +341,92 @@ def main() -> None:
                   {/* Code Editor */}
                   <div className="flex-1 p-4 lg:p-6 font-mono text-sm bg-[#0d1117] overflow-x-auto">
                     <div className="space-y-1 leading-relaxed min-w-[300px]">
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">1</span><span className="text-purple-400">function</span> <span className="text-blue-400">binarySearch</span><span className="text-gray-300">(</span><span className="text-orange-400">arr</span><span className="text-gray-300">, </span><span className="text-orange-400">target</span><span className="text-gray-300">) {</span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">2</span><span className="ml-2 sm:ml-4"><span className="text-purple-400">let</span> <span className="text-blue-400">left</span> <span className="text-gray-300">= </span><span className="text-green-400">0</span><span className="text-gray-300">;</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">3</span><span className="ml-2 sm:ml-4"><span className="text-purple-400">let</span> <span className="text-blue-400">right</span> <span className="text-gray-300">= </span><span className="text-orange-400">arr</span><span className="text-gray-300">.</span><span className="text-blue-400">length</span> <span className="text-gray-300">- </span><span className="text-green-400">1</span><span className="text-gray-300">;</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">4</span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">5</span><span className="ml-2 sm:ml-4"><span className="text-purple-400">while</span> <span className="text-gray-300">(</span><span className="text-blue-400">left</span> <span className="text-gray-300">&lt;= </span><span className="text-blue-400">right</span><span className="text-gray-300">) {</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">6</span><span className="ml-4 sm:ml-8"><span className="text-purple-400">const</span> <span className="text-blue-400">mid</span> <span className="text-gray-300">= </span><span className="text-yellow-400">Math</span><span className="text-gray-300">.</span><span className="text-blue-400">floor</span><span className="text-gray-300">((</span><span className="text-blue-400">left</span> <span className="text-gray-300">+ </span><span className="text-blue-400">right</span><span className="text-gray-300">) / </span><span className="text-green-400">2</span><span className="text-gray-300">);</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">7</span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">8</span><span className="ml-4 sm:ml-8"><span className="text-purple-400">if</span> <span className="text-gray-300">(</span><span className="text-orange-400">arr</span><span className="text-gray-300">[</span><span className="text-blue-400">mid</span><span className="text-gray-300">] === </span><span className="text-orange-400">target</span><span className="text-gray-300">) {</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">9</span><span className="ml-6 sm:ml-12"><span className="text-purple-400">return</span> <span className="text-blue-400">mid</span><span className="text-gray-300">;</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">10</span><span className="ml-4 sm:ml-8"><span className="text-gray-300">}</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">11</span><span className="ml-2 sm:ml-4"><span className="text-gray-300">}</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">12</span><span className="ml-2 sm:ml-4"><span className="text-purple-400">return</span> <span className="text-gray-300">-</span><span className="text-green-400">1</span><span className="text-gray-300">;</span></span></div>
-                      <div className="flex"><span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">13</span><span className="text-gray-300">}</span></div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">1</span>
+                        <span className="text-purple-400">function</span> <span className="text-blue-400">binarySearch</span>
+                        <span className="text-gray-300">(</span><span className="text-orange-400">arr</span>
+                        <span className="text-gray-300">, </span><span className="text-orange-400">target</span>
+                        <span className="text-gray-300">) {`{`}</span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">2</span>
+                        <span className="ml-2 sm:ml-4">
+                          <span className="text-purple-400">let</span> <span className="text-blue-400">left</span> 
+                          <span className="text-gray-300"> = </span><span className="text-green-400">0</span>
+                          <span className="text-gray-300">;</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">3</span>
+                        <span className="ml-2 sm:ml-4">
+                          <span className="text-purple-400">let</span> <span className="text-blue-400">right</span> 
+                          <span className="text-gray-300"> = </span><span className="text-orange-400">arr</span>
+                          <span className="text-gray-300">.</span><span className="text-blue-400">length</span> 
+                          <span className="text-gray-300"> - </span><span className="text-green-400">1</span>
+                          <span className="text-gray-300">;</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">4</span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">5</span>
+                        <span className="ml-2 sm:ml-4">
+                          <span className="text-purple-400">while</span> <span className="text-gray-300">(</span>
+                          <span className="text-blue-400">left</span> <span className="text-gray-300"> {'<='} </span>
+                          <span className="text-blue-400">right</span><span className="text-gray-300">) {`{`}</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">6</span>
+                        <span className="ml-4 sm:ml-8">
+                          <span className="text-purple-400">const</span> <span className="text-blue-400">mid</span> 
+                          <span className="text-gray-300"> = </span><span className="text-yellow-400">Math</span>
+                          <span className="text-gray-300">.</span><span className="text-blue-400">floor</span>
+                          <span className="text-gray-300">((</span><span className="text-blue-400">left</span> 
+                          <span className="text-gray-300"> + </span><span className="text-blue-400">right</span>
+                          <span className="text-gray-300">) / </span><span className="text-green-400">2</span>
+                          <span className="text-gray-300">);</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">7</span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">8</span>
+                        <span className="ml-4 sm:ml-8">
+                          <span className="text-purple-400">if</span> <span className="text-gray-300">(</span>
+                          <span className="text-orange-400">arr</span><span className="text-gray-300">[</span>
+                          <span className="text-blue-400">mid</span><span className="text-gray-300">] === </span>
+                          <span className="text-orange-400">target</span><span className="text-gray-300">) {`{`}</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">9</span>
+                        <span className="ml-6 sm:ml-12">
+                          <span className="text-purple-400">return</span> <span className="text-blue-400">mid</span>
+                          <span className="text-gray-300">;</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">10</span>
+                        <span className="ml-4 sm:ml-8"><span className="text-gray-300">{`}`}</span></span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">11</span>
+                        <span className="ml-2 sm:ml-4"><span className="text-gray-300">{`}`}</span></span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">12</span>
+                        <span className="ml-2 sm:ml-4">
+                          <span className="text-purple-400">return</span> <span className="text-gray-300">-</span>
+                          <span className="text-green-400">1</span><span className="text-gray-300">;</span>
+                        </span>
+                      </div>
+                      <div className="flex">
+                        <span className="text-gray-500 w-6 sm:w-8 text-right mr-2 sm:mr-4 select-none text-xs sm:text-sm">13</span>
+                        <span className="text-gray-300">{`}`}</span>
+                      </div>
                     </div>
                   </div>
                   
