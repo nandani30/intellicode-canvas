@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Users, Zap, ChevronRight, MessageSquare, Code2 } from "lucide-react";
+import { Sparkles, Users, Zap, ChevronRight, MessageSquare, Code2, Activity } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
@@ -27,9 +27,7 @@ def main() -> None:
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
-            <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+            <span className="text-muted-foreground">Your AI-Powered Code Editor</span>
           </nav>
           
           <div className="flex items-center space-x-3">
@@ -68,7 +66,7 @@ def main() -> None:
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/signup">
                   <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
-                    Start Coding Free
+                    Start Coding Now
                   </Button>
                 </Link>
                 <Link to="/dashboard">
@@ -268,11 +266,11 @@ def main() -> None:
             <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
               <CardContent className="p-8 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Users className="w-8 h-8 text-blue-500" />
+                  <Code2 className="w-8 h-8 text-blue-500" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Real-Time Collaboration</h3>
+                <h3 className="text-xl font-semibold mb-3">Smart Code Editor</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Code together seamlessly with live cursor tracking, instant sync, and built-in voice chat
+                  Advanced syntax highlighting, auto-completion, and intelligent code formatting for multiple languages
                 </p>
               </CardContent>
             </Card>
@@ -282,9 +280,9 @@ def main() -> None:
                 <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Sparkles className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">AI-Powered Assistance</h3>
+                <h3 className="text-xl font-semibold mb-3">AI Code Assistant</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Get intelligent code explanations, smart suggestions, and automated debugging help
+                  Get instant code explanations, bug fixes, optimization suggestions, and smart completions
                 </p>
               </CardContent>
             </Card>
@@ -292,11 +290,47 @@ def main() -> None:
             <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
               <CardContent className="p-8 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="w-8 h-8 text-emerald-500" />
+                  <Zap className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Instant Execution</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Run code instantly with built-in compiler, see real-time output, and debug efficiently
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Users className="w-8 h-8 text-purple-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Learning Platform</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Practice with flashcards, coding challenges, and track your progress with analytics
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MessageSquare className="w-8 h-8 text-orange-500" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Interactive Whiteboard</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Brainstorm ideas, design architectures, and visualize concepts with collaborative drawing
+                  Visualize algorithms, design system architecture, and brainstorm with collaborative drawing tools
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Activity className="w-8 h-8 text-cyan-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Progress Tracking</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Monitor coding streaks, track completed challenges, and visualize your learning journey
                 </p>
               </CardContent>
             </Card>
@@ -304,175 +338,6 @@ def main() -> None:
         </div>
       </section>
 
-      {/* Enhanced Code Editor Preview - Responsive */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Practice with our{" "}
-              <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                advanced editor
-              </span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Code with syntax highlighting, AI assistance, and instant feedback
-            </p>
-          </div>
-          
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-purple-500/10 to-emerald-500/10 rounded-2xl blur-3xl"></div>
-            
-            <Card className="relative bg-[#0d1117] border border-border/50 overflow-hidden shadow-2xl max-w-full">
-              <CardContent className="p-0">
-                {/* Terminal Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-border/30">
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="text-sm text-muted-foreground hidden md:block">binary-search.js</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded hidden sm:block">✓ Tests Passing</div>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col lg:flex-row overflow-hidden">
-                  {/* Code Editor */}
-                  <div className="flex-1 p-4 lg:p-6 font-mono text-sm bg-[#0d1117] overflow-x-auto">
-                    <div className="space-y-1 leading-relaxed">
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">1</span>
-                        <span className="whitespace-nowrap">
-                          <span className="text-purple-400">function</span> <span className="text-blue-400">binarySearch</span>
-                          <span className="text-gray-300">(</span><span className="text-orange-400">arr</span>
-                          <span className="text-gray-300">, </span><span className="text-orange-400">target</span>
-                          <span className="text-gray-300">) {`{`}</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">2</span>
-                        <span className="ml-4 whitespace-nowrap">
-                          <span className="text-purple-400">let</span> <span className="text-blue-400">left</span> 
-                          <span className="text-gray-300"> = </span><span className="text-green-400">0</span>
-                          <span className="text-gray-300">;</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">3</span>
-                        <span className="ml-4 whitespace-nowrap">
-                          <span className="text-purple-400">let</span> <span className="text-blue-400">right</span> 
-                          <span className="text-gray-300"> = </span><span className="text-orange-400">arr</span>
-                          <span className="text-gray-300">.</span><span className="text-blue-400">length</span> 
-                          <span className="text-gray-300"> - </span><span className="text-green-400">1</span>
-                          <span className="text-gray-300">;</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">4</span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">5</span>
-                        <span className="ml-4 whitespace-nowrap">
-                          <span className="text-purple-400">while</span> <span className="text-gray-300">(</span>
-                          <span className="text-blue-400">left</span> <span className="text-gray-300"> {'<='} </span>
-                          <span className="text-blue-400">right</span><span className="text-gray-300">) {`{`}</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">6</span>
-                        <span className="ml-8 whitespace-nowrap">
-                          <span className="text-purple-400">const</span> <span className="text-blue-400">mid</span> 
-                          <span className="text-gray-300"> = </span><span className="text-yellow-400">Math</span>
-                          <span className="text-gray-300">.</span><span className="text-blue-400">floor</span>
-                          <span className="text-gray-300">((</span><span className="text-blue-400">left</span> 
-                          <span className="text-gray-300"> + </span><span className="text-blue-400">right</span>
-                          <span className="text-gray-300">) / </span><span className="text-green-400">2</span>
-                          <span className="text-gray-300">);</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">7</span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">8</span>
-                        <span className="ml-8 whitespace-nowrap">
-                          <span className="text-purple-400">if</span> <span className="text-gray-300">(</span>
-                          <span className="text-orange-400">arr</span><span className="text-gray-300">[</span>
-                          <span className="text-blue-400">mid</span><span className="text-gray-300">] === </span>
-                          <span className="text-orange-400">target</span><span className="text-gray-300">) {`{`}</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">9</span>
-                        <span className="ml-12 whitespace-nowrap">
-                          <span className="text-purple-400">return</span> <span className="text-blue-400">mid</span>
-                          <span className="text-gray-300">;</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">10</span>
-                        <span className="ml-8 whitespace-nowrap">
-                          <span className="text-gray-300">{`}`}</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">11</span>
-                        <span className="ml-8 whitespace-nowrap">
-                          <span className="text-purple-400">return</span> <span className="text-green-400">-1</span>
-                          <span className="text-gray-300">;</span>
-                        </span>
-                      </div>
-                      <div className="flex flex-nowrap">
-                        <span className="text-gray-500 w-8 text-right mr-4 select-none flex-shrink-0">12</span>
-                        <span className="whitespace-nowrap">
-                          <span className="text-gray-300">{`}`}</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Results Panel */}
-                  <div className="lg:w-80 bg-[#161b22] border-l border-border/30 p-4">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-semibold text-gray-300">Test Results</h3>
-                        <span className="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded">All Passed</span>
-                      </div>
-                      <div className="space-y-2 text-xs">
-                        <div className="flex items-center justify-between p-2 bg-green-400/10 rounded">
-                          <span className="text-green-400">✓ Test 1: [1,2,3,4,5], target: 3</span>
-                          <span className="text-green-400">2</span>
-                        </div>
-                        <div className="flex items-center justify-between p-2 bg-green-400/10 rounded">
-                          <span className="text-green-400">✓ Test 2: [1,2,3,4,5], target: 6</span>
-                          <span className="text-green-400">-1</span>
-                        </div>
-                        <div className="flex items-center justify-between p-2 bg-green-400/10 rounded">
-                          <span className="text-green-400">✓ Test 3: [], target: 1</span>
-                          <span className="text-green-400">-1</span>
-                        </div>
-                      </div>
-                      <div className="pt-4 border-t border-border/30">
-                        <div className="text-xs text-gray-400">
-                          <div className="flex justify-between mb-1">
-                            <span>Time Complexity:</span>
-                            <span className="text-green-400">O(log n)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Space Complexity:</span>
-                            <span className="text-green-400">O(1)</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 px-6">
@@ -487,7 +352,7 @@ def main() -> None:
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
                 <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
-                  Get Started Free
+                  Start Coding Now
                 </Button>
               </Link>
               <Link to="/dashboard">

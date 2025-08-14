@@ -125,7 +125,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex overflow-hidden">
       {/* Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 bg-card border-r border-border flex flex-col`}>
+      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 bg-card border-r border-border flex flex-col h-screen fixed z-10`}>
         {/* Sidebar Header */}
         <div className="p-4 border-b border-border">
           <div className="flex items-center justify-between">
@@ -186,7 +186,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className={`flex-1 flex flex-col overflow-hidden ${sidebarCollapsed ? 'ml-16' : 'ml-64'} transition-all duration-300`}>
         {/* Top Header */}
         <header className="bg-card border-b border-border p-6">
           <div className="flex items-center justify-between">
