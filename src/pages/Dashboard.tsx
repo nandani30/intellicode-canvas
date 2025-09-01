@@ -1,41 +1,38 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import { 
   Code2, 
   Plus, 
-  Clock, 
   Users, 
   Brain, 
   Bug, 
-  FileText, 
-  Star,
-  Zap,
-  TrendingUp,
-  Calendar,
-  Settings,
-  ChevronRight,
-  Activity,
   Target,
-  Award,
   Sparkles,
   Home,
   RotateCcw,
-  Shuffle,
   Play,
   CheckCircle,
-  Menu,
-  X,
-  ChevronLeft
+  Search,
+  Settings,
+  LogOut,
+  Zap,
+  BookOpen,
+  Share2,
+  Clock,
+  Trophy,
+  Monitor,
+  FileCode,
+  Folder,
+  Star,
+  TrendingUp
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
   // Mock data
   const userData = {
     name: "Alex Developer",
@@ -45,341 +42,284 @@ const Dashboard = () => {
     status: "online"
   };
 
-  const stats = {
-    codingStreak: 12,
-    hoursThisWeek: 24,
-    challengesCompleted: 38,
-    challengesTotal: 50,
-    lastProject: "React Todo App"
-  };
-
   const sidebarItems = [
-    { name: "Home", icon: Home, active: true },
-    { name: "Code Editor", icon: Code2, active: false },
-    { name: "Flashcards", icon: Brain, active: false },
-    { name: "Challenges", icon: Target, active: false },
-    { name: "Revision", icon: RotateCcw, active: false },
-    { name: "Settings", icon: Settings, active: false },
+    { name: "My Projects", icon: Home, active: true, path: "/dashboard" },
+    { name: "Challenges", icon: Target, active: false, path: "/challenges" },
+    { name: "Flashcards", icon: Brain, active: false, path: "/flashcards" },
+    { name: "Settings", icon: Settings, active: false, path: "/settings" },
+  ];
+
+  const projects = [
+    {
+      id: 1,
+      name: "React Todo App",
+      language: "JavaScript",
+      framework: "React",
+      lastModified: "2 hours ago",
+      collaborators: 2
+    },
+    {
+      id: 2,
+      name: "Python DSA Solutions", 
+      language: "Python",
+      framework: "None",
+      lastModified: "1 day ago",
+      collaborators: 0
+    },
+    {
+      id: 3,
+      name: "Java Spring API",
+      language: "Java", 
+      framework: "Spring",
+      lastModified: "3 days ago",
+      collaborators: 4
+    }
   ];
 
   const flashcards = [
     { 
       id: 1, 
       title: "Array Methods", 
-      code: "arr.map(item => item * 2)", 
-      tags: ["JavaScript", "Arrays"],
+      topic: "JavaScript Basics",
       difficulty: "Easy"
     },
     { 
       id: 2, 
-      title: "Async/Await", 
-      code: "const data = await fetch(url)", 
-      tags: ["JavaScript", "Promises"],
+      title: "Binary Trees", 
+      topic: "Data Structures",
       difficulty: "Medium"
     },
     { 
       id: 3, 
-      title: "Binary Search", 
-      code: "while (left <= right) { ... }", 
-      tags: ["Algorithms", "Search"],
+      title: "Dynamic Programming", 
+      topic: "Algorithms",
       difficulty: "Hard"
-    },
+    }
   ];
 
-  const revisionExercises = [
-    { title: "String Reversal", difficulty: "Easy", completed: true },
-    { title: "Two Sum Problem", difficulty: "Medium", completed: false },
-    { title: "Binary Tree Traversal", difficulty: "Hard", completed: false },
-    { title: "Hash Table Implementation", difficulty: "Medium", completed: true },
-    { title: "Merge Sort Algorithm", difficulty: "Hard", completed: false },
-    { title: "Graph DFS/BFS", difficulty: "Hard", completed: false },
-  ];
-
-  const timeline = [
-    { 
-      action: "Fixed bug in JS sorting function", 
-      time: "2 hours ago", 
-      icon: Bug,
-      type: "fix"
-    },
-    { 
-      action: "Reviewed 10 flashcards", 
-      time: "4 hours ago", 
-      icon: Brain,
-      type: "study"
-    },
-    { 
-      action: "Completed async/await challenge", 
-      time: "1 day ago", 
-      icon: CheckCircle,
-      type: "achievement"
-    },
-    { 
-      action: "Started new React project", 
-      time: "2 days ago", 
-      icon: Code2,
-      type: "project"
-    },
-  ];
+  const todaysChallenge = {
+    title: "Two Sum Problem",
+    difficulty: "Medium",
+    description: "Find two numbers in array that add up to target",
+    type: "DSA"
+  };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex overflow-hidden">
-      {/* Sidebar */}
-      <div className={`${sidebarCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 bg-card border-r border-border flex flex-col h-screen fixed z-10`}>
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            {!sidebarCollapsed && (
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <span className="text-lg font-semibold">CodeAura</span>
-              </Link>
-            )}
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="ml-auto"
-            >
-              {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            </Button>
+    <div className="min-h-screen bg-background text-foreground flex">
+      {/* Fixed Left Sidebar */}
+      <div className="w-64 bg-editor-sidebar border-r border-editor-border flex flex-col h-screen fixed">
+        {/* Logo */}
+        <div className="p-4 border-b border-editor-border">
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="text-lg font-semibold text-foreground">CodeAura</span>
+          </Link>
+        </div>
+
+        {/* User Profile */}
+        <div className="p-4 border-b border-editor-border">
+          <div className="flex items-center space-x-3">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={userData.avatar} />
+              <AvatarFallback className="bg-primary text-primary-foreground">
+                {userData.name.split(' ').map(n => n[0]).join('')}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <div className="text-sm font-medium text-foreground">{userData.name}</div>
+              <div className="flex items-center text-xs text-muted-foreground">
+                <Zap className="w-3 h-3 mr-1 text-orange-500" />
+                <span>{userData.streak} day streak</span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 p-4">
-          <div className="space-y-2">
+          <div className="space-y-1">
             {sidebarItems.map((item, index) => (
               <Button
                 key={index}
                 variant={item.active ? "secondary" : "ghost"}
-                className={`w-full ${sidebarCollapsed ? 'justify-center px-2' : 'justify-start'}`}
+                className="w-full justify-start text-foreground"
                 size="sm"
               >
-                <item.icon className="w-4 h-4" />
-                {!sidebarCollapsed && <span className="ml-2">{item.name}</span>}
+                <item.icon className="w-4 h-4 mr-2" />
+                {item.name}
               </Button>
             ))}
           </div>
         </nav>
 
-        {/* User Status */}
-        <div className="p-4 border-t border-border">
-          <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'}`}>
-            <Avatar className="w-8 h-8">
-              <AvatarImage src={userData.avatar} />
-              <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-            </Avatar>
-            {!sidebarCollapsed && (
-              <div>
-                <div className="text-sm font-medium">{userData.name}</div>
-                <div className="flex items-center text-xs text-muted-foreground">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
-                  {userData.status}
-                </div>
-              </div>
-            )}
-          </div>
+        {/* Logout */}
+        <div className="p-4 border-t border-editor-border">
+          <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground" size="sm">
+            <LogOut className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className={`flex-1 flex flex-col overflow-hidden ${sidebarCollapsed ? 'ml-16' : 'ml-64'} transition-all duration-300`}>
-        {/* Top Header */}
-        <header className="bg-card border-b border-border p-6">
+      {/* Main Content Area - Scrollable */}
+      <div className="ml-64 flex-1 flex flex-col min-h-screen">
+        {/* Top Bar */}
+        <header className="bg-editor-panel border-b border-editor-border p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-foreground">Welcome back, {userData.name.split(' ')[0]}!</h1>
-              <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full">
-                <Zap className="w-4 h-4" />
-                <span className="text-sm font-medium">{userData.streak} day streak</span>
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                <Input 
+                  placeholder="Search projects by name..." 
+                  className="pl-10 bg-background border-editor-border"
+                />
               </div>
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                Quick Action
-              </Button>
             </div>
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              New Project
+            </Button>
           </div>
         </header>
 
-        {/* Dashboard Content - Scrollable */}
-        <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-          {/* Productivity Snapshot */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 text-foreground">Productivity Snapshot</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <p className="text-2xl font-bold text-foreground">{stats.codingStreak}</p>
-                      <p className="text-sm text-muted-foreground">Day Streak</p>
-                    </div>
-                    <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                      <Zap className="w-5 h-5 text-orange-500" />
-                    </div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {stats.hoursThisWeek}h coded this week
-                  </div>
-                </CardContent>
-              </Card>
+        {/* Scrollable Main Content */}
+        <main className="flex-1 p-6 overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Projects Grid - Takes 3 columns */}
+            <div className="lg:col-span-3 space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold mb-4 text-foreground">My Projects</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {projects.map((project) => (
+                    <Card key={project.id} className="hover:shadow-lg transition-shadow">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-base text-foreground">{project.name}</CardTitle>
+                          <Badge variant="outline" className="text-xs">
+                            {project.language}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                          <span>{project.framework}</span>
+                          <span>{project.lastModified}</span>
+                          {project.collaborators > 0 && (
+                            <div className="flex items-center">
+                              <Users className="w-3 h-3 mr-1" />
+                              {project.collaborators}
+                            </div>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <div className="flex space-x-2">
+                          <Button size="sm" className="flex-1">
+                            <Code2 className="w-4 h-4 mr-1" />
+                            Open Editor
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Share2 className="w-4 h-4 mr-1" />
+                            Share
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
 
+            {/* Right Sidebar Widgets - Takes 1 column */}
+            <div className="space-y-6">
+              {/* Flashcards Widget */}
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <p className="text-2xl font-bold text-foreground">{stats.challengesCompleted}%</p>
-                      <p className="text-sm text-muted-foreground">Challenges</p>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center text-foreground">
+                    <Brain className="w-4 h-4 mr-2" />
+                    Flashcards
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {flashcards.slice(0, 3).map((card) => (
+                    <div key={card.id} className="p-3 bg-muted/30 rounded-md">
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className="text-sm font-medium text-foreground">{card.title}</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {card.difficulty}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground">{card.topic}</p>
                     </div>
-                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                      <Target className="w-5 h-5 text-green-500" />
-                    </div>
-                  </div>
-                  <Progress value={stats.challengesCompleted} className="h-2" />
-                  <div className="text-xs text-muted-foreground mt-2">
-                    {Math.round(stats.challengesTotal * stats.challengesCompleted / 100)}/{stats.challengesTotal} completed
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Last Session</p>
-                      <p className="text-lg font-semibold text-muted-foreground">{stats.lastProject}</p>
-                    </div>
-                    <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                      <Code2 className="w-5 h-5 text-blue-500" />
-                    </div>
-                  </div>
-                  <Button size="sm" className="w-full">
-                    Resume Editing
+                  ))}
+                  <Button size="sm" variant="outline" className="w-full">
+                    <BookOpen className="w-4 h-4 mr-1" />
+                    View All
                   </Button>
                 </CardContent>
               </Card>
-            </div>
-          </section>
 
-          {/* Flashcards Carousel */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Flashcards</h2>
-              <div className="flex space-x-2">
-                <Button size="sm" variant="outline">
-                  <Plus className="w-4 h-4 mr-1" />
-                  Add New
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Shuffle className="w-4 h-4 mr-1" />
-                  Shuffle
-                </Button>
-                <Button size="sm">
-                  <Brain className="w-4 h-4 mr-1" />
-                  Review 5 Cards
-                </Button>
-              </div>
-            </div>
-            <div className="flex space-x-4 overflow-x-auto pb-4">
-              {flashcards.map((card) => (
-                <Card key={card.id} className="min-w-[300px] flex-shrink-0">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">{card.title}</CardTitle>
-                      <Badge variant={card.difficulty === 'Easy' ? 'default' : card.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
-                        {card.difficulty}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-muted/30 p-3 rounded-md font-mono text-sm mb-3">
-                      {card.code}
-                    </div>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {card.tags.map((tag, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {tag}
+              {/* Today's Challenge Widget */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center text-foreground">
+                    <Target className="w-4 h-4 mr-2" />
+                    Today's Challenge
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="text-sm font-medium text-foreground">{todaysChallenge.title}</h4>
+                      <p className="text-xs text-muted-foreground mb-2">{todaysChallenge.description}</p>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="secondary" className="text-xs">
+                          {todaysChallenge.difficulty}
                         </Badge>
-                      ))}
+                        <Badge variant="outline" className="text-xs">
+                          {todaysChallenge.type}
+                        </Badge>
+                      </div>
                     </div>
                     <Button size="sm" className="w-full">
                       <Play className="w-4 h-4 mr-1" />
-                      Practice
+                      Start Challenge
                     </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Revision Exercises Grid */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Revision Exercises</h2>
-              <Button size="sm" variant="outline">
-                View All
-              </Button>
+              {/* Streak Info Widget */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center text-foreground">
+                    <Trophy className="w-4 h-4 mr-2" />
+                    Your Progress
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Coding Streak</span>
+                    <div className="flex items-center text-orange-500">
+                      <Zap className="w-4 h-4 mr-1" />
+                      <span className="text-sm font-medium">{userData.streak} days</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Projects</span>
+                    <span className="text-sm font-medium text-foreground">{projects.length}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">Challenges</span>
+                    <span className="text-sm font-medium text-foreground">15 completed</span>
+                  </div>
+                  <div className="text-center pt-2">
+                    <p className="text-xs text-muted-foreground">Keep it up! 🚀</p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {revisionExercises.map((exercise, index) => (
-                <Card key={index} className={exercise.completed ? 'bg-green-500/5 border-green-500/20' : ''}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium text-foreground">{exercise.title}</h3>
-                      {exercise.completed ? (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <div className="w-4 h-4 border border-muted-foreground rounded-full" />
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <Badge variant={exercise.difficulty === 'Easy' ? 'default' : exercise.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
-                        {exercise.difficulty}
-                      </Badge>
-                      {!exercise.completed && (
-                        <Button size="sm">
-                          Start
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Learning Timeline */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 text-foreground">Recent Activity</h2>
-            <Card>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  {timeline.map((item, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        item.type === 'fix' ? 'bg-red-500/10 text-red-500' :
-                        item.type === 'study' ? 'bg-blue-500/10 text-blue-500' :
-                        item.type === 'achievement' ? 'bg-green-500/10 text-green-500' :
-                        'bg-purple-500/10 text-purple-500'
-                      }`}>
-                        <item.icon className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-foreground">{item.action}</p>
-                        <p className="text-xs text-muted-foreground">{item.time}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </section>
+          </div>
         </main>
       </div>
     </div>
