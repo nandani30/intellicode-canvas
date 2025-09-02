@@ -1,398 +1,386 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  Code2, 
-  Users, 
-  Brain, 
-  Play, 
-  Sparkles,
-  ArrowRight,
-  FileText,
-  Folder,
-  MousePointer2,
-  Lightbulb,
-  CheckCircle
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Sparkles, Users, Zap, ChevronRight, MessageSquare, Code2, Activity } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeTab, setActiveTab] = useState("files");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const step = Math.floor(scrollY / (windowHeight * 0.6));
-      setCurrentStep(Math.min(step, 4));
-    };
+  const codeSnippet = `def reverse_string(s: str) -> str:
+    return s[::-1]
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+def main() -> None:
+    reversed_str = reverse_string("hello")
+    print("Reversed string:", reversed_str)`;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Fixed Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-editor-border bg-editor-sidebar/95 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      {/* Header */}
+      <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">CodeAura</span>
+            <span className="text-xl font-semibold">CodeAura</span>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <nav className="hidden md:flex items-center space-x-8">
+            <span className="text-muted-foreground">Your AI-Powered Code Editor</span>
+          </nav>
+          
+          <div className="flex items-center space-x-3">
             <Link to="/login">
-              <Button variant="ghost" className="text-foreground hover:text-primary">Sign In</Button>
+              <Button variant="outline" className="border-border">Log in</Button>
             </Link>
             <Link to="/signup">
-              <Button>Get Started</Button>
+              <Button className="bg-primary hover:bg-primary/90">Sign Up</Button>
             </Link>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Interactive Scroll Journey */}
-      <div className="pt-20">
-        {/* Step 1: You open CodeAura */}
-        <section 
-          ref={(el) => sectionsRef.current[0] = el}
-          className="min-h-screen flex items-center justify-center relative"
-        >
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Section */}
+      <section className="pt-24 pb-12 px-6">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+            {/* Left Side - Hero Text */}
             <div className="space-y-8">
               <div className="space-y-4">
-                <h1 className="text-5xl font-bold leading-tight">
-                  You open <br />
-                  <span className="text-primary">CodeAura.</span>
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                  <Sparkles className="w-4 h-4 mr-2 text-primary" />
+                  <span className="text-sm text-primary font-medium">AI-Powered Code Editor</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  Code smarter with{" "}
+                  <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                    AI assistance
+                  </span>
                 </h1>
-                <p className="text-xl text-muted-foreground">
-                  A clean, powerful editor designed for modern developers
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                  Experience the future of development with real-time collaboration, intelligent code explanations, and AI-powered debugging.
                 </p>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/signup">
-                  <Button size="lg" className="group">
-                    Start Building Now
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
+                    Start Coding Now
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg">
-                  <Play className="mr-2 w-4 h-4" />
-                  See Demo
-                </Button>
+                <Link to="/dashboard">
+                  <Button variant="outline" size="lg" className="border-border hover:bg-muted/50 px-8">
+                    View Demo
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="flex items-center space-x-6 pt-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-muted-foreground">Online now: 1,247 developers</span>
+                </div>
               </div>
             </div>
 
-            {/* Editor Mockup */}
-            <div className="bg-editor-bg border border-editor-border rounded-lg overflow-hidden shadow-2xl">
-              <div className="bg-editor-sidebar border-b border-editor-border p-3 flex items-center gap-2">
-                <div className="flex gap-1">
-                  <div className="w-3 h-3 rounded-full bg-destructive"></div>
-                  <div className="w-3 h-3 rounded-full bg-warning"></div>
-                  <div className="w-3 h-3 rounded-full bg-success"></div>
-                </div>
-                <span className="text-sm text-muted-foreground ml-2">main.js</span>
-              </div>
+            {/* Right Side - Enhanced Code Editor Demo */}
+            <div className="relative">
+              {/* Background glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-emerald-500/20 rounded-3xl blur-3xl"></div>
               
-              <div className="flex">
-                <div className="w-48 bg-editor-sidebar border-r border-editor-border p-4">
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center space-x-2 text-foreground">
-                      <Folder className="w-4 h-4" />
-                      <span>src</span>
+              <Card className="relative bg-card/95 backdrop-blur border-border/50 shadow-2xl overflow-hidden">
+                <CardContent className="p-0">
+                  {/* Terminal Header */}
+                  <div className="flex items-center justify-between px-4 py-3 bg-editor-sidebar/80 backdrop-blur border-b border-border/50">
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
-                    <div className="flex items-center space-x-2 text-muted-foreground ml-4">
-                      <FileText className="w-4 h-4" />
-                      <span>main.js</span>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex space-x-1">
+                        <button 
+                          onClick={() => setActiveTab("files")}
+                          className={`text-xs px-2 py-1 rounded ${
+                            activeTab === "files" ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          Explorer
+                        </button>
+                        <button className="text-xs px-2 py-1 rounded text-muted-foreground hover:text-foreground">
+                          Search
+                        </button>
+                      </div>
+                      <span className="text-xs text-muted-foreground">factorial.js</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-muted-foreground ml-4">
-                      <FileText className="w-4 h-4" />
-                      <span>utils.js</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex-1 p-6 font-mono text-sm">
-                  <div className="space-y-2">
-                    <div className="text-code-comment">// Welcome to CodeAura</div>
-                    <div className="text-code-keyword">function</div> <span className="text-code-function">createMagic</span><span className="text-foreground">() {"{"}</span>
-                    <div className="ml-4 text-code-keyword">return</div> <span className="text-code-string">"Let's build something amazing"</span><span className="text-foreground">;</span>
-                    <div className="text-foreground">{"}"}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Step 2: Your friend joins */}
-        <section 
-          ref={(el) => sectionsRef.current[1] = el}
-          className="min-h-screen flex items-center justify-center relative"
-        >
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="bg-editor-bg border border-editor-border rounded-lg overflow-hidden shadow-2xl relative">
-                <div className="bg-editor-sidebar border-b border-editor-border p-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1">
-                      <div className="w-3 h-3 rounded-full bg-destructive"></div>
-                      <div className="w-3 h-3 rounded-full bg-warning"></div>
-                      <div className="w-3 h-3 rounded-full bg-success"></div>
-                    </div>
-                    <span className="text-sm text-muted-foreground ml-2">collaboration.js</span>
                   </div>
                   
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-success animate-pulse"></div>
-                    <span className="text-xs text-success">2 online</span>
-                  </div>
-                </div>
-                
-                <div className="p-6 font-mono text-sm">
-                  <div className="space-y-2">
-                    <div className="text-code-comment">// Real-time collaboration</div>
-                    <div className="text-code-keyword">const</div> <span className="text-code-function">team</span> <span className="text-foreground">= [</span>
-                    <div className="ml-4 text-code-string">"You"</div><span className="text-foreground">,</span>
-                    <div className="ml-4 text-code-string relative">
-                      "Sarah"
-                      {currentStep >= 1 && (
-                        <MousePointer2 
-                          className="absolute -right-8 top-0 w-4 h-4 text-primary animate-bounce" 
-                        />
-                      )}
-                    </div>
-                    <div className="text-foreground">];</div>
-                  </div>
-                </div>
-                
-                {currentStep >= 1 && (
-                  <div className="absolute top-16 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-lg text-xs animate-fade-in">
-                    Sarah joined the session
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="order-1 lg:order-2 space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-5xl font-bold leading-tight">
-                  Your friend <br />
-                  <span className="text-primary">joins.</span>
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  Seamless real-time collaboration with live cursors and instant sync
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-success" />
-                  <span>Live cursor tracking</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-success" />
-                  <span>Instant code synchronization</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-success" />
-                  <span>Built-in voice & text chat</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Step 3: AI explains the code */}
-        <section 
-          ref={(el) => sectionsRef.current[2] = el}
-          className="min-h-screen flex items-center justify-center relative"
-        >
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-5xl font-bold leading-tight">
-                  Stuck? <br />
-                  <span className="text-primary">Aura explains.</span>
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  AI-powered code explanations, bug detection, and learning assistance
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Brain className="w-5 h-5 text-ai-accent" />
-                  <span>Instant code explanations</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Lightbulb className="w-5 h-5 text-ai-accent" />
-                  <span>Smart bug detection & fixes</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Sparkles className="w-5 h-5 text-ai-accent" />
-                  <span>Generate learning flashcards</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-editor-bg border border-editor-border rounded-lg overflow-hidden shadow-2xl">
-              <div className="flex">
-                <div className="flex-1 p-6 font-mono text-sm border-r border-editor-border">
-                  <div className="space-y-2">
-                    <div className="text-code-comment">// Complex algorithm</div>
-                    <div className="text-code-keyword">function</div> <span className="text-code-function">quickSort</span><span className="text-foreground">(arr) {"{"}</span>
-                    <div className="ml-4 text-code-keyword">if</div> <span className="text-foreground">(arr.length {"<="} 1) {"{"}</span>
-                    <div className="ml-8 text-code-keyword">return</div> <span className="text-foreground">arr;</span>
-                    <div className="ml-4">{"}"}</div>
-                    <div className="text-foreground">{"}"}</div>
-                  </div>
-                </div>
-                
-                {currentStep >= 2 && (
-                  <div className="w-80 bg-editor-sidebar p-4 animate-slide-in-right">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Sparkles className="w-4 h-4 text-ai-accent" />
-                      <span className="text-sm font-medium text-ai-accent">AI Assistant</span>
-                    </div>
-                    <div className="space-y-3 text-sm">
-                      <div className="p-3 bg-editor-panel rounded-lg">
-                        <p className="text-foreground mb-2">This is a QuickSort implementation:</p>
-                        <ul className="text-muted-foreground space-y-1 text-xs">
-                          <li>• Base case: arrays ≤ 1 element</li>
-                          <li>• Divides array around pivot</li>
-                          <li>• Time complexity: O(n log n)</li>
-                        </ul>
+                  <div className="grid grid-cols-12 h-[420px]">
+                    {/* Left - File Explorer */}
+                    <div className="col-span-3 bg-editor-sidebar/60 backdrop-blur border-r border-border/30 p-3">
+                      <div className="space-y-3">
+                        <div className="text-xs text-muted-foreground font-medium">EXPLORER</div>
+                        <div className="space-y-1">
+                          <div className="text-xs flex items-center space-x-2 text-foreground bg-primary/10 px-2 py-1 rounded">
+                            <ChevronRight className="w-3 h-3" />
+                            <span>factorial.js</span>
+                          </div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">utils.js</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">index.html</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">style.css</div>
+                          <div className="text-xs text-muted-foreground pl-5 hover:text-foreground cursor-pointer py-1">package.json</div>
+                        </div>
                       </div>
-                      <Button size="sm" variant="outline" className="w-full">
-                        Generate Flashcard
-                      </Button>
+                    </div>
+                    
+                    {/* Center - Code Editor */}
+                    <div className="col-span-6 bg-editor-bg/90 backdrop-blur p-4 font-mono text-sm">
+                      <div className="space-y-1">
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">1</span>
+                          <span className="text-purple-400">function</span>
+                          <span className="text-blue-400 ml-2">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground">) {"{"}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">2</span>
+                          <span className="text-muted-foreground ml-4">//</span>
+                          <span className="text-green-400 ml-2">Base case</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">3</span>
+                          <span className="text-purple-400 ml-4">if</span>
+                          <span className="text-foreground ml-2">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground ml-2">&lt;= 1) </span>
+                          <span className="text-purple-400">return</span>
+                          <span className="text-yellow-400 ml-2">1</span>
+                          <span className="text-foreground">;</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">4</span>
+                        </div>
+                        <div className="flex items-center bg-primary/5 border-l-2 border-primary/50">
+                          <span className="text-muted-foreground w-8 text-xs">5</span>
+                          <span className="text-muted-foreground ml-4">//</span>
+                          <span className="text-green-400 ml-2">Recursive case</span>
+                        </div>
+                        <div className="flex items-center bg-primary/5 border-l-2 border-primary/50">
+                          <span className="text-muted-foreground w-8 text-xs">6</span>
+                          <span className="text-purple-400 ml-4">return</span>
+                          <span className="text-orange-400 ml-2">n</span>
+                          <span className="text-foreground ml-2">*</span>
+                          <span className="text-blue-400 ml-2">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-orange-400">n</span>
+                          <span className="text-foreground ml-2">- 1);</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">7</span>
+                          <span className="text-foreground">{"}"}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">8</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">9</span>
+                          <span className="text-muted-foreground">//</span>
+                          <span className="text-green-400 ml-2">Test the function</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-muted-foreground w-8 text-xs">10</span>
+                          <span className="text-blue-400">console</span>
+                          <span className="text-foreground">.</span>
+                          <span className="text-blue-400">log</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-blue-400">factorial</span>
+                          <span className="text-foreground">(</span>
+                          <span className="text-yellow-400">5</span>
+                          <span className="text-foreground">));</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Right - AI Assistant */}
+                    <div className="col-span-3 bg-editor-panel/80 backdrop-blur border-l border-border/30 p-3">
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2">
+                          <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                          <span className="text-xs font-medium">AI Assistant</span>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <button className="w-full text-left p-2 bg-primary/10 border border-primary/30 rounded text-xs hover:bg-primary/20 transition-all duration-200 hover:scale-105">
+                            ✨ Explain Code
+                          </button>
+                          <button className="w-full text-left p-2 bg-emerald-500/10 border border-emerald-500/30 rounded text-xs hover:bg-emerald-500/20 transition-all duration-200">
+                            🐛 Find Issues
+                          </button>
+                          <button className="w-full text-left p-2 bg-blue-500/10 border border-blue-500/30 rounded text-xs hover:bg-blue-500/20 transition-all duration-200">
+                            🚀 Optimize
+                          </button>
+                        </div>
+                        
+                        <div className="mt-4 p-3 bg-muted/20 rounded-lg border border-border/30">
+                          <div className="text-xs font-medium mb-2 text-primary">💡 Explanation</div>
+                          <div className="text-xs text-muted-foreground leading-relaxed">
+                            This recursive factorial function calculates n! by multiplying n with factorial(n-1).
+                          </div>
+                        </div>
+                        
+                        <div className="p-3 bg-green-500/5 border border-green-500/20 rounded-lg">
+                          <div className="text-xs font-medium mb-2 text-green-400">✅ Output</div>
+                          <div className="text-xs font-mono text-muted-foreground">
+                            → 120
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                )}
-              </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Step 4: Flashcard flips */}
-        <section 
-          ref={(el) => sectionsRef.current[3] = el}
-          className="min-h-screen flex items-center justify-center relative"
-        >
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 flex justify-center">
-              <div className="relative">
-                <div className={`w-80 h-48 bg-card border border-border rounded-xl p-6 flex items-center justify-center shadow-lg transition-transform duration-700 ${currentStep >= 3 ? 'rotate-y-180' : ''}`}>
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">QuickSort Algorithm</h3>
-                    <p className="text-sm text-muted-foreground">What's the average time complexity?</p>
-                  </div>
+      {/* Features Section - More Creative */}
+      <section id="features" className="py-20 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Everything you need to{" "}
+              <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                code better
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Powerful features designed to enhance your development workflow
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Code2 className="w-8 h-8 text-blue-500" />
                 </div>
-                
-                {currentStep >= 3 && (
-                  <div className="absolute inset-0 w-80 h-48 bg-primary/10 border border-primary rounded-xl p-6 flex items-center justify-center shadow-lg animate-fade-in">
-                    <div className="text-center">
-                      <h3 className="text-lg font-semibold mb-2 text-primary">O(n log n)</h3>
-                      <p className="text-sm text-muted-foreground">QuickSort divides the problem in half each time, leading to logarithmic depth.</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="order-1 lg:order-2 space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-5xl font-bold leading-tight">
-                  You master <br />
-                  <span className="text-primary">the concept.</span>
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  AI-generated flashcards and challenges help you learn faster
+                <h3 className="text-xl font-semibold mb-3">Smart Code Editor</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Advanced syntax highlighting, auto-completion, and intelligent code formatting for multiple languages
                 </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-primary" />
-                  <span>Auto-generated study materials</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Brain className="w-5 h-5 text-primary" />
-                  <span>Spaced repetition learning</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Code2 className="w-5 h-5 text-primary" />
-                  <span>Practice coding challenges</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Step 5: Final CTA */}
-        <section 
-          ref={(el) => sectionsRef.current[4] = el}
-          className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-background via-editor-bg to-editor-sidebar"
-        >
-          <div className="max-w-4xl mx-auto px-6 text-center space-y-12">
-            <div className="space-y-6">
-              <h2 className="text-6xl font-bold leading-tight">
-                <span className="text-primary">Build.</span>{" "}
-                <span className="text-ai-accent">Learn.</span>{" "}
-                <span className="text-foreground">Together.</span>
-              </h2>
-              <p className="text-2xl text-muted-foreground max-w-2xl mx-auto">
-                The complete development environment for modern teams
-              </p>
-            </div>
+              </CardContent>
+            </Card>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">AI Code Assistant</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Get instant code explanations, bug fixes, optimization suggestions, and smart completions
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Zap className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Instant Execution</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Run code instantly with built-in compiler, see real-time output, and debug efficiently
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Users className="w-8 h-8 text-purple-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Learning Platform</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Practice with flashcards, coding challenges, and track your progress with analytics
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MessageSquare className="w-8 h-8 text-orange-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Interactive Whiteboard</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Visualize algorithms, design system architecture, and brainstorm with collaborative drawing tools
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Activity className="w-8 h-8 text-cyan-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Progress Tracking</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Monitor coding streaks, track completed challenges, and visualize your learning journey
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+
+      {/* CTA Section */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto max-w-4xl text-center">
+          <div className="bg-gradient-to-r from-primary/10 via-purple-600/10 to-emerald-500/10 rounded-3xl p-12 border border-border/50">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to level up your coding skills?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join thousands of developers mastering algorithms and acing technical interviews
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
-                <Button size="lg" className="text-lg px-8 py-4 h-auto group">
-                  Start Building Now
-                  <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Button size="lg" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-8">
+                  Start Coding Now
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-4 h-auto"
-                onClick={scrollToTop}
-              >
-                <Play className="mr-3 w-5 h-5" />
-                Experience Again
-              </Button>
-            </div>
-            
-            <div className="pt-12">
-              <p className="text-muted-foreground">
-                &copy; 2024 CodeAura. Built for developers, by developers.
-              </p>
+              <Link to="/dashboard">
+                <Button variant="outline" size="lg" className="border-border hover:bg-muted/50 px-8">
+                  View Live Demo
+                </Button>
+              </Link>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      {/* Scroll Progress Indicator */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40 space-y-2">
-        {[0, 1, 2, 3, 4].map((step) => (
-          <div
-            key={step}
-            className={`w-2 h-8 rounded-full transition-colors duration-300 ${
-              currentStep >= step ? 'bg-primary' : 'bg-border'
-            }`}
-          />
-        ))}
-      </div>
+      {/* Footer */}
+      <footer className="border-t border-border py-8 px-6">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-5 h-5 bg-primary rounded flex items-center justify-center">
+                <Sparkles className="w-3 h-3 text-primary-foreground" />
+              </div>
+              <span className="font-semibold">CodeAura</span>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Built for developers, by developers
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

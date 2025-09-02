@@ -21,9 +21,9 @@ const Login = () => {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold text-foreground">CodeAura</span>
+            <span className="text-xl font-semibold">CodeAura</span>
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Sign in to your account</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Sign in to your account</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -34,7 +34,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12 bg-background text-foreground placeholder:text-muted-foreground"
+              className="h-12"
             />
           </div>
           <div>
@@ -44,7 +44,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 bg-background text-foreground placeholder:text-muted-foreground"
+              className="h-12"
             />
           </div>
           <Button type="submit" className="w-full h-12">

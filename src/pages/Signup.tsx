@@ -66,9 +66,9 @@ const Signup = () => {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold text-foreground">CodeAura</span>
+            <span className="text-xl font-semibold">CodeAura</span>
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Create your account</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
@@ -79,7 +79,7 @@ const Signup = () => {
               value={formData.email}
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               required
-              className="h-12 bg-background text-foreground placeholder:text-muted-foreground"
+              className="h-12"
             />
           </div>
           <div>
@@ -89,7 +89,7 @@ const Signup = () => {
               value={formData.password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               required
-              className="h-12 bg-background text-foreground placeholder:text-muted-foreground"
+              className="h-12"
             />
           </div>
           <Button type="submit" className="w-full h-12">
