@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import { 
   Code2, 
   Plus, 
@@ -29,7 +30,14 @@ import {
   CheckCircle,
   Menu,
   X,
-  ChevronLeft
+  ChevronLeft,
+  Search,
+  Filter,
+  Share2,
+  FolderOpen,
+  ExternalLink,
+  Flame,
+  Trophy
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -38,20 +46,49 @@ const Dashboard = () => {
 
   // Mock data
   const userData = {
-    name: "Alex Developer",
-    email: "alex@example.com",
+    name: "Nandani",
+    email: "nandani@example.com",
     avatar: "/api/placeholder/40/40",
-    streak: 12,
+    streak: 15,
     status: "online"
   };
 
   const stats = {
-    codingStreak: 12,
-    hoursThisWeek: 24,
-    challengesCompleted: 38,
-    challengesTotal: 50,
-    lastProject: "React Todo App"
+    codingStreak: 15,
+    hoursThisWeek: 32,
+    challengesCompleted: 45,
+    challengesTotal: 60,
+    flashcardsReviewed: 7,
+    flashcardsToday: 10,
+    projectsCreated: 8
   };
+
+  const projects = [
+    {
+      id: "1",
+      name: "Todo App",
+      language: "javascript",
+      framework: "react",
+      lastOpened: "2 hours ago",
+      files: ["src/App.js", "src/components/TodoList.js", "package.json"]
+    },
+    {
+      id: "2", 
+      name: "Binary Search Tree",
+      language: "python",
+      framework: null,
+      lastOpened: "1 day ago",
+      files: ["main.py", "tree.py", "test.py"]
+    },
+    {
+      id: "3",
+      name: "REST API Server", 
+      language: "java",
+      framework: "spring",
+      lastOpened: "3 days ago",
+      files: ["src/main/java/App.java", "pom.xml"]
+    }
+  ];
 
   const sidebarItems = [
     { name: "Home", icon: Home, active: true },
@@ -64,35 +101,68 @@ const Dashboard = () => {
 
   const flashcards = [
     { 
-      id: 1, 
+      id: "1", 
       title: "Array Methods", 
-      code: "arr.map(item => item * 2)", 
+      question: "What does array.map() return?", 
       tags: ["JavaScript", "Arrays"],
-      difficulty: "Easy"
+      difficulty: "Easy",
+      reviewDate: "Today"
     },
     { 
-      id: 2, 
+      id: "2", 
       title: "Async/Await", 
-      code: "const data = await fetch(url)", 
+      question: "How to handle errors in async/await?", 
       tags: ["JavaScript", "Promises"],
-      difficulty: "Medium"
+      difficulty: "Medium",
+      reviewDate: "Tomorrow"
     },
     { 
-      id: 3, 
+      id: "3", 
       title: "Binary Search", 
-      code: "while (left <= right) { ... }", 
+      question: "What's the time complexity?", 
       tags: ["Algorithms", "Search"],
-      difficulty: "Hard"
+      difficulty: "Hard",
+      reviewDate: "Today"
     },
   ];
 
-  const revisionExercises = [
-    { title: "String Reversal", difficulty: "Easy", completed: true },
-    { title: "Two Sum Problem", difficulty: "Medium", completed: false },
-    { title: "Binary Tree Traversal", difficulty: "Hard", completed: false },
-    { title: "Hash Table Implementation", difficulty: "Medium", completed: true },
-    { title: "Merge Sort Algorithm", difficulty: "Hard", completed: false },
-    { title: "Graph DFS/BFS", difficulty: "Hard", completed: false },
+  const challenges = [
+    { 
+      id: "1",
+      title: "Implement Array Methods", 
+      difficulty: "Easy", 
+      completed: false,
+      language: "JavaScript",
+      type: "coding",
+      fromFlashcard: "Array Methods"
+    },
+    { 
+      id: "2",
+      title: "Promise Handling Quiz", 
+      difficulty: "Medium", 
+      completed: false,
+      language: "JavaScript",
+      type: "quiz",
+      fromFlashcard: "Async/Await"
+    },
+    { 
+      id: "3",
+      title: "Binary Search Implementation", 
+      difficulty: "Hard", 
+      completed: true,
+      language: "Python",
+      type: "coding",
+      fromFlashcard: "Binary Search"
+    },
+    {
+      id: "4",
+      title: "Tree Traversal",
+      difficulty: "Medium",
+      completed: false,
+      language: "C++",
+      type: "coding", 
+      fromFlashcard: "Trees"
+    }
   ];
 
   const timeline = [
@@ -191,115 +261,271 @@ const Dashboard = () => {
         <header className="bg-card border-b border-border p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">Welcome back, {userData.name.split(' ')[0]}!</h1>
+              <h1 className="text-2xl font-semibold text-foreground">Welcome back, {userData.name}! 👋</h1>
               <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full">
-                <Zap className="w-4 h-4" />
+              <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 text-orange-400 px-3 py-2 rounded-full">
+                <Flame className="w-4 h-4" />
                 <span className="text-sm font-medium">{userData.streak} day streak</span>
               </div>
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                Quick Action
-              </Button>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <span>📈 {stats.flashcardsReviewed}/{stats.flashcardsToday} flashcards today</span>
+              </div>
+              <Link to="/new-project">
+                <Button>
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Project
+                </Button>
+              </Link>
             </div>
           </div>
         </header>
 
         {/* Dashboard Content - Scrollable */}
         <main className="flex-1 p-6 space-y-8 overflow-y-auto">
-          {/* Productivity Snapshot */}
+          {/* Quick Stats */}
           <section>
-            <h2 className="text-lg font-semibold mb-4 text-foreground">Productivity Snapshot</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="bg-gradient-to-br from-orange-500/5 to-red-500/5 border-orange-500/20">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold text-foreground">{stats.codingStreak}</p>
-                      <p className="text-sm text-muted-foreground">Day Streak</p>
+                      <p className="text-sm text-muted-foreground">🔥 Day Streak</p>
                     </div>
-                    <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                      <Zap className="w-5 h-5 text-orange-500" />
-                    </div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {stats.hoursThisWeek}h coded this week
+                    <Flame className="w-8 h-8 text-orange-500" />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
+              <Card className="bg-gradient-to-br from-blue-500/5 to-purple-500/5 border-blue-500/20">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-foreground">{stats.challengesCompleted}%</p>
-                      <p className="text-sm text-muted-foreground">Challenges</p>
+                      <p className="text-2xl font-bold text-foreground">{stats.flashcardsReviewed}</p>
+                      <p className="text-sm text-muted-foreground">📈 Flashcards Today</p>
                     </div>
-                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                      <Target className="w-5 h-5 text-green-500" />
-                    </div>
-                  </div>
-                  <Progress value={stats.challengesCompleted} className="h-2" />
-                  <div className="text-xs text-muted-foreground mt-2">
-                    {Math.round(stats.challengesTotal * stats.challengesCompleted / 100)}/{stats.challengesTotal} completed
+                    <Brain className="w-8 h-8 text-blue-500" />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
+              <Card className="bg-gradient-to-br from-green-500/5 to-emerald-500/5 border-green-500/20">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-foreground">Last Session</p>
-                      <p className="text-lg font-semibold text-muted-foreground">{stats.lastProject}</p>
+                      <p className="text-2xl font-bold text-foreground">{challenges.filter(c => !c.completed).length}</p>
+                      <p className="text-sm text-muted-foreground">⏳ Unsolved Challenges</p>
                     </div>
-                    <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                      <Code2 className="w-5 h-5 text-blue-500" />
-                    </div>
+                    <Target className="w-8 h-8 text-green-500" />
                   </div>
-                  <Button size="sm" className="w-full">
-                    Resume Editing
-                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border-purple-500/20">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{stats.projectsCreated}</p>
+                      <p className="text-sm text-muted-foreground">📂 Projects Created</p>
+                    </div>
+                    <FolderOpen className="w-8 h-8 text-purple-500" />
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </section>
 
-          {/* Flashcards Carousel */}
+          {/* Projects Panel */}
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Flashcards</h2>
-              <div className="flex space-x-2">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-foreground">My Projects</h2>
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input placeholder="Search projects..." className="pl-10 w-64" />
+                </div>
+                <Link to="/new-project">
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    New Project
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map(project => (
+                <Card key={project.id} className="group hover:shadow-lg transition-all duration-200 hover:border-primary/50">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                          {project.language === "javascript" && "🟨"}
+                          {project.language === "python" && "🐍"}
+                          {project.language === "java" && "☕"}
+                          {project.language === "cpp" && "⚡"}
+                        </div>
+                        <div>
+                          <CardTitle className="text-base text-foreground">{project.name}</CardTitle>
+                          <p className="text-xs text-muted-foreground">{project.lastOpened}</p>
+                        </div>
+                      </div>
+                      <div className="flex space-x-1">
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Share2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex flex-wrap gap-1">
+                      <Badge variant="secondary" className="text-xs">{project.language}</Badge>
+                      {project.framework && (
+                        <Badge variant="outline" className="text-xs">{project.framework}</Badge>
+                      )}
+                    </div>
+                    
+                    <div className="text-xs text-muted-foreground">
+                      <p className="mb-1">Files preview:</p>
+                      <div className="space-y-0.5">
+                        {project.files.slice(0, 3).map((file, i) => (
+                          <div key={i} className="flex items-center space-x-1">
+                            <FileText className="w-3 h-3" />
+                            <span>{file}</span>
+                          </div>
+                        ))}
+                        {project.files.length > 3 && (
+                          <p className="text-muted-foreground">+{project.files.length - 3} more files</p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-2">
+                      <Button size="sm" className="flex-1">
+                        <ExternalLink className="w-3 h-3 mr-1" />
+                        Open Editor
+                      </Button>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Share2 className="w-3 h-3 mr-1" />
+                        Share Session
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Challenges Section */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-foreground">Unsolved Challenges Waiting for You</h2>
+              <div className="flex items-center space-x-2">
                 <Button size="sm" variant="outline">
-                  <Plus className="w-4 h-4 mr-1" />
-                  Add New
+                  <Filter className="w-4 h-4 mr-1" />
+                  Filter
                 </Button>
                 <Button size="sm" variant="outline">
-                  <Shuffle className="w-4 h-4 mr-1" />
-                  Shuffle
-                </Button>
-                <Button size="sm">
-                  <Brain className="w-4 h-4 mr-1" />
-                  Review 5 Cards
+                  View All
                 </Button>
               </div>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {challenges.filter(c => !c.completed).map(challenge => (
+                <Card key={challenge.id} className="group hover:shadow-lg transition-all duration-200 hover:border-primary/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                        {challenge.title}
+                      </h3>
+                      <div className="flex items-center space-x-2">
+                        {challenge.type === "coding" ? (
+                          <Code2 className="w-4 h-4 text-blue-500" />
+                        ) : (
+                          <Brain className="w-4 h-4 text-purple-500" />
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex space-x-2">
+                        <Badge 
+                          variant={challenge.difficulty === 'Easy' ? 'default' : challenge.difficulty === 'Medium' ? 'secondary' : 'destructive'}
+                          className="text-xs"
+                        >
+                          {challenge.difficulty}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          {challenge.language}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Generated from: <span className="font-medium">{challenge.fromFlashcard}</span>
+                    </p>
+                    
+                    <Link to={`/challenge/${challenge.id}`}>
+                      <Button size="sm" className="w-full">
+                        <Play className="w-4 h-4 mr-2" />
+                        Attempt Now
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            {challenges.filter(c => !c.completed).length === 0 && (
+              <Card className="text-center p-8 bg-gradient-to-br from-green-500/5 to-emerald-500/5 border-green-500/20">
+                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trophy className="w-8 h-8 text-green-500" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">🎉 You've solved all challenges!</h3>
+                <p className="text-muted-foreground mb-4">Review flashcards to unlock more challenges.</p>
+                <Button>
+                  <Brain className="w-4 h-4 mr-2" />
+                  Review Flashcards
+                </Button>
+              </Card>
+            )}
+          </section>
+
+          {/* Flashcards Review */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-foreground">📖 Flashcards Review</h2>
+              <div className="flex items-center space-x-2">
+                <div className="text-sm text-muted-foreground">
+                  Today's Progress: <span className="font-medium text-foreground">{stats.flashcardsReviewed}/{stats.flashcardsToday} completed</span>
+                </div>
+                <div className="w-16">
+                  <Progress value={(stats.flashcardsReviewed / stats.flashcardsToday) * 100} className="h-2" />
+                </div>
+              </div>
+            </div>
+            
             <div className="flex space-x-4 overflow-x-auto pb-4">
               {flashcards.map((card) => (
-                <Card key={card.id} className="min-w-[300px] flex-shrink-0">
+                <Card key={card.id} className="min-w-[280px] flex-shrink-0 group hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">{card.title}</CardTitle>
-                      <Badge variant={card.difficulty === 'Easy' ? 'default' : card.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
+                      <CardTitle className="text-base text-foreground">{card.title}</CardTitle>
+                      <Badge 
+                        variant={card.difficulty === 'Easy' ? 'default' : card.difficulty === 'Medium' ? 'secondary' : 'destructive'}
+                        className="text-xs"
+                      >
                         {card.difficulty}
                       </Badge>
                     </div>
+                    <p className="text-xs text-muted-foreground">Review: {card.reviewDate}</p>
                   </CardHeader>
                   <CardContent>
-                    <div className="bg-muted/30 p-3 rounded-md font-mono text-sm mb-3">
-                      {card.code}
+                    <div className="bg-muted/20 p-3 rounded-md text-sm mb-3 border">
+                      <p className="text-muted-foreground">{card.question}</p>
                     </div>
                     <div className="flex flex-wrap gap-1 mb-3">
                       {card.tags.map((tag, index) => (
@@ -308,9 +534,9 @@ const Dashboard = () => {
                         </Badge>
                       ))}
                     </div>
-                    <Button size="sm" className="w-full">
-                      <Play className="w-4 h-4 mr-1" />
-                      Practice
+                    <Button size="sm" className="w-full group-hover:bg-primary/90">
+                      <Brain className="w-4 h-4 mr-1" />
+                      Review Now
                     </Button>
                   </CardContent>
                 </Card>
@@ -318,40 +544,44 @@ const Dashboard = () => {
             </div>
           </section>
 
-          {/* Revision Exercises Grid */}
+          {/* Streak & Progress Tracker */}
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Revision Exercises</h2>
-              <Button size="sm" variant="outline">
-                View All
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {revisionExercises.map((exercise, index) => (
-                <Card key={index} className={exercise.completed ? 'bg-green-500/5 border-green-500/20' : ''}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium text-foreground">{exercise.title}</h3>
-                      {exercise.completed ? (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <div className="w-4 h-4 border border-muted-foreground rounded-full" />
-                      )}
+            <Card className="bg-gradient-to-r from-primary/5 via-purple-500/5 to-emerald-500/5 border-primary/20">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-foreground">🔥 Streak & Progress</h2>
+                  <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                    <span>Flashcards this week: <strong className="text-foreground">30</strong></span>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Flame className="w-8 h-8 text-white" />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <Badge variant={exercise.difficulty === 'Easy' ? 'default' : exercise.difficulty === 'Medium' ? 'secondary' : 'destructive'}>
-                        {exercise.difficulty}
-                      </Badge>
-                      {!exercise.completed && (
-                        <Button size="sm">
-                          Start
-                        </Button>
-                      )}
+                    <p className="text-2xl font-bold text-foreground">{stats.codingStreak}</p>
+                    <p className="text-sm text-muted-foreground">Day Streak</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Brain className="w-8 h-8 text-white" />
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    <p className="text-2xl font-bold text-foreground">{stats.flashcardsReviewed}</p>
+                    <p className="text-sm text-muted-foreground">Flashcards Today</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Target className="w-8 h-8 text-white" />
+                    </div>
+                    <p className="text-2xl font-bold text-foreground">{challenges.filter(c => c.completed).length}</p>
+                    <p className="text-sm text-muted-foreground">Challenges Solved</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </section>
 
           {/* Learning Timeline */}

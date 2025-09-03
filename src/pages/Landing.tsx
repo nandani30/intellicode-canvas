@@ -69,9 +69,9 @@ def main() -> None:
                     Start Coding Now
                   </Button>
                 </Link>
-                <Link to="/dashboard">
+                <Link to="/login">
                   <Button variant="outline" size="lg" className="border-border hover:bg-muted/50 px-8">
-                    View Demo
+                    Sign In
                   </Button>
                 </Link>
               </div>
