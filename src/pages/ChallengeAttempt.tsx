@@ -306,8 +306,8 @@ public:
         <div className="w-1/3 border-r border-border bg-card/50 p-6 overflow-y-auto">
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-semibold mb-4">Challenge Description</h2>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Challenge Description</h2>
+              <p className="text-foreground leading-relaxed mb-4">
                 {challenge.description}
               </p>
               
@@ -319,20 +319,20 @@ public:
             </div>
 
             <div>
-              <h3 className="font-medium mb-3">Input/Output Examples</h3>
+              <h3 className="font-medium mb-3 text-foreground">Input/Output Examples</h3>
               <div className="space-y-3">
                 {challenge.testCases?.slice(0, 2).map(tc => (
                   <div key={tc.id} className="bg-muted/20 p-3 rounded-lg border">
                     <div className="text-sm">
                       <div className="mb-2">
-                        <span className="font-medium">Input:</span>
-                        <div className="font-mono text-xs mt-1 bg-muted/30 p-2 rounded">
+                        <span className="font-medium text-foreground">Input:</span>
+                        <div className="font-mono text-xs mt-1 bg-muted/30 p-2 rounded text-foreground">
                           {tc.input}
                         </div>
                       </div>
                       <div>
-                        <span className="font-medium">Expected Output:</span>
-                        <div className="font-mono text-xs mt-1 bg-muted/30 p-2 rounded">
+                        <span className="font-medium text-foreground">Expected Output:</span>
+                        <div className="font-mono text-xs mt-1 bg-muted/30 p-2 rounded text-foreground">
                           {tc.expectedOutput}
                         </div>
                       </div>

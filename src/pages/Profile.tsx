@@ -5,77 +5,59 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  Code2, 
-  Camera, 
   Save, 
   ArrowLeft,
-  Settings,
   User,
-  Bell,
-  Shield,
-  CreditCard,
-  Github,
-  Twitter,
-  Linkedin,
-  Globe,
+  Trophy,
+  Target,
+  Brain,
+  Code2,
   Sparkles,
   Calendar,
   MapPin,
   Star,
-  Trophy,
-  Target,
-  Zap
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: "Alex Developer",
+    firstName: "Alex",
+    lastName: "Developer",
     email: "alex@example.com",
     bio: "Full-stack developer passionate about clean code and AI-powered development tools.",
     location: "San Francisco, CA",
-    website: "https://alexdev.com",
-    github: "alexdev",
-    twitter: "alexdev",
-    linkedin: "alexdev",
-    timezone: "PST",
-    theme: "dark",
-    notifications: {
-      email: true,
-      push: true,
-      collaboration: true,
-      achievements: true
-    }
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: ""
   });
 
   const stats = {
-    totalExplanations: 1247,
-    bugsFixed: 89,
-    studyNotes: 156,
-    collaborationHours: 78,
-    achievements: 12,
+    challengesCompleted: 89,
+    flashcardsReviewed: 1247,
+    projectsCreated: 12,
     streak: 15
   };
 
   const recentActivity = [
-    { type: "explanation", description: "Explained React hooks implementation", time: "2 hours ago" },
-    { type: "debug", description: "Fixed async/await bug in Node.js", time: "5 hours ago" },
-    { type: "collaboration", description: "Paired with @sarah on Express API", time: "1 day ago" },
-    { type: "note", description: "Created study notes for algorithms", time: "2 days ago" }
+    { type: "challenge", description: "Completed Binary Search challenge", time: "2 hours ago", points: 50 },
+    { type: "flashcard", description: "Reviewed React Hooks flashcards", time: "5 hours ago", points: 10 },
+    { type: "project", description: "Created new Express.js project", time: "1 day ago", points: 20 },
+    { type: "achievement", description: "Earned 'Problem Solver' badge", time: "2 days ago", points: 100 }
   ];
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case "explanation": return <Code2 className="w-4 h-4 text-blue-500" />;
-      case "debug": return <Zap className="w-4 h-4 text-red-500" />;
-      case "collaboration": return <User className="w-4 h-4 text-purple-500" />;
-      case "note": return <Target className="w-4 h-4 text-green-500" />;
+      case "challenge": return <Target className="w-4 h-4 text-green-500" />;
+      case "flashcard": return <Brain className="w-4 h-4 text-blue-500" />;
+      case "project": return <Code2 className="w-4 h-4 text-purple-500" />;
+      case "achievement": return <Trophy className="w-4 h-4 text-yellow-500" />;
       default: return <Star className="w-4 h-4 text-gray-500" />;
     }
   };
@@ -84,12 +66,28 @@ const Profile = () => {
     // TODO: Implement save logic when backend is connected
     console.log("Saving profile data:", profileData);
     setIsEditing(false);
+    // Reset password fields
+    setProfileData(prev => ({
+      ...prev,
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: ""
+    }));
+  };
+
+  const canSave = () => {
+    if (profileData.newPassword) {
+      return profileData.oldPassword && 
+             profileData.newPassword === profileData.confirmPassword &&
+             profileData.newPassword.length >= 8;
+    }
+    return true;
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/40 bg-background/95 backdrop-blur">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link to="/dashboard" className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors">
@@ -98,14 +96,12 @@ const Profile = () => {
             </Link>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold">CodeAura</span>
-            </Link>
-          </div>
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold text-foreground">CodeAura</span>
+          </Link>
 
           <div className="flex items-center space-x-3">
             {isEditing ? (
@@ -113,14 +109,14 @@ const Profile = () => {
                 <Button variant="outline" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleSave}>
+                <Button onClick={handleSave} disabled={!canSave()}>
                   <Save className="w-4 h-4 mr-2" />
-                  Save
+                  Save Changes
                 </Button>
               </div>
             ) : (
               <Button onClick={() => setIsEditing(true)}>
-                <Settings className="w-4 h-4 mr-2" />
+                <User className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>
             )}
@@ -129,33 +125,25 @@ const Profile = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Profile Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-center space-y-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Profile Sidebar */}
+            <div className="lg:col-span-1">
+              <Card>
+                <CardContent className="p-6 text-center space-y-4">
                   {/* Avatar */}
-                  <div className="relative inline-block">
-                    <Avatar className="w-24 h-24">
-                      <AvatarImage src="/api/placeholder/96/96" />
-                      <AvatarFallback className="text-lg">
-                        {profileData.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    {isEditing && (
-                      <Button 
-                        size="sm" 
-                        className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0"
-                      >
-                        <Camera className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
+                  <Avatar className="w-24 h-24 mx-auto">
+                    <AvatarImage src="/api/placeholder/96/96" />
+                    <AvatarFallback className="text-lg">
+                      {profileData.firstName[0]}{profileData.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
                   
-                  {/* Name & Email */}
+                  {/* Name */}
                   <div>
-                    <h2 className="text-2xl font-bold">{profileData.name}</h2>
+                    <h2 className="text-2xl font-bold text-foreground">
+                      {profileData.firstName} {profileData.lastName}
+                    </h2>
                     <p className="text-muted-foreground">{profileData.email}</p>
                   </div>
                   
@@ -166,11 +154,11 @@ const Profile = () => {
                   </Badge>
                   
                   {/* Bio */}
-                  <p className="text-sm text-muted-foreground text-center">
+                  <p className="text-sm text-muted-foreground">
                     {profileData.bio}
                   </p>
                   
-                  {/* Location & Links */}
+                  {/* Location & Joined Date */}
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                       <MapPin className="w-4 h-4" />
@@ -181,343 +169,214 @@ const Profile = () => {
                       <span>Joined March 2024</span>
                     </div>
                   </div>
-                  
-                  {/* Social Links */}
-                  <div className="flex justify-center space-x-2">
-                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                      <Github className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                      <Twitter className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                      <Linkedin className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0">
-                      <Globe className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
 
-            {/* Stats Card */}
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle className="text-lg">Your Stats</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-500">{stats.totalExplanations}</div>
-                    <div className="text-xs text-muted-foreground">Explanations</div>
+              {/* Stats Card */}
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle className="text-lg text-foreground">Your Progress</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-500">{stats.challengesCompleted}</div>
+                      <div className="text-xs text-muted-foreground">Challenges</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-500">{stats.flashcardsReviewed}</div>
+                      <div className="text-xs text-muted-foreground">Flashcards</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-500">{stats.projectsCreated}</div>
+                      <div className="text-xs text-muted-foreground">Projects</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-500">{stats.streak}</div>
+                      <div className="text-xs text-muted-foreground">Day Streak</div>
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-500">{stats.bugsFixed}</div>
-                    <div className="text-xs text-muted-foreground">Bugs Fixed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-500">{stats.studyNotes}</div>
-                    <div className="text-xs text-muted-foreground">Study Notes</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-500">{stats.collaborationHours}</div>
-                    <div className="text-xs text-muted-foreground">Collab Hours</div>
-                  </div>
-                </div>
-                
-                <div className="border-t pt-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Current Streak</span>
-                    <span className="font-semibold">{stats.streak} days</span>
-                  </div>
-                  <div className="flex justify-between text-sm mt-1">
-                    <span className="text-muted-foreground">Achievements</span>
-                    <span className="font-semibold">{stats.achievements}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <Tabs defaultValue="general" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="general">General</TabsTrigger>
-                <TabsTrigger value="preferences">Preferences</TabsTrigger>
-                <TabsTrigger value="activity">Activity</TabsTrigger>
-                <TabsTrigger value="billing">Billing</TabsTrigger>
-              </TabsList>
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Profile Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-foreground">Profile Information</CardTitle>
+                  <CardDescription>
+                    Update your personal details and contact information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        value={profileData.firstName}
+                        onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
+                        disabled={!isEditing}
+                        className="text-foreground"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        value={profileData.lastName}
+                        onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
+                        disabled={!isEditing}
+                        className="text-foreground"
+                      />
+                    </div>
+                  </div>
 
-              {/* General Tab */}
-              <TabsContent value="general">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={profileData.email}
+                      onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                      disabled={!isEditing}
+                      className="text-foreground"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bio">Bio</Label>
+                    <Textarea
+                      id="bio"
+                      value={profileData.bio}
+                      onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
+                      disabled={!isEditing}
+                      rows={3}
+                      className="text-foreground"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                      id="location"
+                      value={profileData.location}
+                      onChange={(e) => setProfileData({...profileData, location: e.target.value})}
+                      disabled={!isEditing}
+                      className="text-foreground"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Password Change */}
+              {isEditing && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
+                    <CardTitle className="text-foreground">Change Password</CardTitle>
                     <CardDescription>
-                      Update your profile details and social links
+                      Leave blank if you don't want to change your password
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">Full Name</Label>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="oldPassword">Current Password</Label>
+                      <div className="relative">
                         <Input
-                          id="name"
-                          value={profileData.name}
-                          onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                          disabled={!isEditing}
+                          id="oldPassword"
+                          type={showOldPassword ? "text" : "password"}
+                          value={profileData.oldPassword}
+                          onChange={(e) => setProfileData({...profileData, oldPassword: e.target.value})}
+                          className="text-foreground pr-10"
                         />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                          disabled={!isEditing}
-                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowOldPassword(!showOldPassword)}
+                        >
+                          {showOldPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="bio">Bio</Label>
-                      <Textarea
-                        id="bio"
-                        value={profileData.bio}
-                        onChange={(e) => setProfileData({...profileData, bio: e.target.value})}
-                        disabled={!isEditing}
-                        rows={3}
+                      <Label htmlFor="newPassword">New Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="newPassword"
+                          type={showNewPassword ? "text" : "password"}
+                          value={profileData.newPassword}
+                          onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})}
+                          className="text-foreground pr-10"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                        >
+                          {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        value={profileData.confirmPassword}
+                        onChange={(e) => setProfileData({...profileData, confirmPassword: e.target.value})}
+                        className="text-foreground"
                       />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="location">Location</Label>
-                        <Input
-                          id="location"
-                          value={profileData.location}
-                          onChange={(e) => setProfileData({...profileData, location: e.target.value})}
-                          disabled={!isEditing}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="website">Website</Label>
-                        <Input
-                          id="website"
-                          value={profileData.website}
-                          onChange={(e) => setProfileData({...profileData, website: e.target.value})}
-                          disabled={!isEditing}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="github">GitHub</Label>
-                        <Input
-                          id="github"
-                          value={profileData.github}
-                          onChange={(e) => setProfileData({...profileData, github: e.target.value})}
-                          disabled={!isEditing}
-                          placeholder="username"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="twitter">Twitter</Label>
-                        <Input
-                          id="twitter"
-                          value={profileData.twitter}
-                          onChange={(e) => setProfileData({...profileData, twitter: e.target.value})}
-                          disabled={!isEditing}
-                          placeholder="username"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="linkedin">LinkedIn</Label>
-                        <Input
-                          id="linkedin"
-                          value={profileData.linkedin}
-                          onChange={(e) => setProfileData({...profileData, linkedin: e.target.value})}
-                          disabled={!isEditing}
-                          placeholder="username"
-                        />
-                      </div>
+                      {profileData.newPassword && profileData.confirmPassword && 
+                       profileData.newPassword !== profileData.confirmPassword && (
+                        <p className="text-sm text-destructive">Passwords do not match</p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
-              </TabsContent>
+              )}
 
-              {/* Preferences Tab */}
-              <TabsContent value="preferences">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preferences</CardTitle>
-                    <CardDescription>
-                      Customize your CodeAura experience
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <Label>Email Notifications</Label>
-                          <p className="text-sm text-muted-foreground">Receive email updates about your activity</p>
+              {/* Activity History */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-foreground">Recent Activity</CardTitle>
+                  <CardDescription>
+                    Your latest achievements and progress
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {recentActivity.map((activity, index) => (
+                      <div key={index} className="flex items-center space-x-4 p-3 rounded-lg bg-muted/20 border">
+                        <div className="flex-shrink-0">
+                          {getActivityIcon(activity.type)}
                         </div>
-                        <Switch 
-                          checked={profileData.notifications.email}
-                          onCheckedChange={(checked) => 
-                            setProfileData({
-                              ...profileData, 
-                              notifications: {...profileData.notifications, email: checked}
-                            })
-                          }
-                        />
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <Label>Push Notifications</Label>
-                          <p className="text-sm text-muted-foreground">Get notified about collaboration invites</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-foreground">
+                            {activity.description}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {activity.time}
+                          </p>
                         </div>
-                        <Switch 
-                          checked={profileData.notifications.push}
-                          onCheckedChange={(checked) => 
-                            setProfileData({
-                              ...profileData, 
-                              notifications: {...profileData.notifications, push: checked}
-                            })
-                          }
-                        />
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <Label>Achievement Notifications</Label>
-                          <p className="text-sm text-muted-foreground">Celebrate your coding milestones</p>
-                        </div>
-                        <Switch 
-                          checked={profileData.notifications.achievements}
-                          onCheckedChange={(checked) => 
-                            setProfileData({
-                              ...profileData, 
-                              notifications: {...profileData.notifications, achievements: checked}
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Theme</Label>
-                        <Select value={profileData.theme}>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="dark">Dark</SelectItem>
-                            <SelectItem value="light">Light</SelectItem>
-                            <SelectItem value="system">System</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Timezone</Label>
-                        <Select value={profileData.timezone}>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="PST">Pacific (PST)</SelectItem>
-                            <SelectItem value="MST">Mountain (MST)</SelectItem>
-                            <SelectItem value="CST">Central (CST)</SelectItem>
-                            <SelectItem value="EST">Eastern (EST)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Activity Tab */}
-              <TabsContent value="activity">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>
-                      Your coding activity and achievements
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {recentActivity.map((activity, index) => (
-                        <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-muted/30">
-                          <div className="flex-shrink-0 mt-0.5">
-                            {getActivityIcon(activity.type)}
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">{activity.description}</p>
-                            <p className="text-xs text-muted-foreground">{activity.time}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Billing Tab */}
-              <TabsContent value="billing">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Billing & Subscription</CardTitle>
-                    <CardDescription>
-                      Manage your subscription and billing information
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="font-semibold">Pro Plan</h3>
-                          <p className="text-sm text-muted-foreground">Unlimited features, priority support</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold">$19</div>
-                          <div className="text-sm text-muted-foreground">/month</div>
+                        <div className="flex-shrink-0">
+                          <Badge variant="outline" className="text-xs">
+                            +{activity.points} XP
+                          </Badge>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span>Next billing date</span>
-                        <span className="font-medium">April 15, 2024</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span>Payment method</span>
-                        <span className="font-medium">•••• 4242</span>
-                      </div>
-                    </div>
-
-                    <div className="flex space-x-3">
-                      <Button variant="outline">
-                        <CreditCard className="w-4 h-4 mr-2" />
-                        Update Payment
-                      </Button>
-                      <Button variant="outline">
-                        <Shield className="w-4 h-4 mr-2" />
-                        Download Invoice
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

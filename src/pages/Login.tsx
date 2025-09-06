@@ -23,7 +23,7 @@ const Login = () => {
             </div>
             <span className="text-xl font-semibold">CodeAura</span>
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight">Sign in to your account</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Sign in to your account</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -34,7 +34,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12"
+              className="h-12 text-foreground placeholder:text-muted-foreground"
             />
           </div>
           <div>
@@ -44,7 +44,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12"
+              className="h-12 text-foreground placeholder:text-muted-foreground"
             />
           </div>
           <Button type="submit" className="w-full h-12">

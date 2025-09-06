@@ -14,11 +14,13 @@ import {
   FileText,
   Coffee
 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { Link, useNavigate } from "react-router-dom";
 
 const NewProject = () => {
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedFramework, setSelectedFramework] = useState("");
   const [isCreating, setIsCreating] = useState(false);
@@ -31,9 +33,11 @@ const NewProject = () => {
   ];
 
   const frameworks = [
-    { value: "react", label: "React", language: "javascript", icon: "⚛️" },
+    { value: "react", label: "React.js", language: "javascript", icon: "⚛️" },
+    { value: "nextjs", label: "Next.js", language: "javascript", icon: "▲" },
     { value: "vue", label: "Vue.js", language: "javascript", icon: "💚" },
     { value: "angular", label: "Angular", language: "javascript", icon: "🅰️" },
+    { value: "express", label: "Express.js", language: "javascript", icon: "🚀" },
     { value: "django", label: "Django", language: "python", icon: "🎸" },
     { value: "flask", label: "Flask", language: "python", icon: "🍶" },
     { value: "spring", label: "Spring Boot", language: "java", icon: "🍃" },
@@ -121,6 +125,23 @@ const NewProject = () => {
                 </p>
               </div>
 
+              {/* Project Description */}
+              <div className="space-y-2">
+                <Label htmlFor="project-description">
+                  Project Description
+                </Label>
+                <Textarea
+                  id="project-description"
+                  placeholder="Describe what your project will do..."
+                  value={projectDescription}
+                  onChange={(e) => setProjectDescription(e.target.value)}
+                  rows={3}
+                />
+                <p className="text-xs text-muted-foreground">
+                  A brief description of your project's purpose and features
+                </p>
+              </div>
+
               {/* Language Selection */}
               <div className="space-y-2">
                 <Label>Programming Language *</Label>
@@ -179,6 +200,11 @@ const NewProject = () => {
                     <div>
                       <span className="text-muted-foreground">Name:</span> {projectName}
                     </div>
+                    {projectDescription && (
+                      <div>
+                        <span className="text-muted-foreground">Description:</span> {projectDescription}
+                      </div>
+                    )}
                     <div>
                       <span className="text-muted-foreground">Language:</span> {
                         languages.find(l => l.value === selectedLanguage)?.label
